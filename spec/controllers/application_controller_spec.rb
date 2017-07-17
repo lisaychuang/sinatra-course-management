@@ -6,7 +6,7 @@ describe ApplicationController do
   #   it 'loads the homepage' do
   #     get '/'
   #     expect(last_response.status).to eq(200)
-  #     expect(last_response.body).to include("Welcome to Fwitter")
+  #     expect(last_response.body).to include("Training on HOT topics")
   #   end
   # end
 
@@ -16,15 +16,16 @@ describe ApplicationController do
   #     get '/signup'
   #     expect(last_response.status).to eq(200)
   #   end
+    
 
-  #   it 'signup directs user to twitter index' do
+  #   it 'signup directs user to Course index' do
   #     params = {
   #       :username => "skittles123",
   #       :email => "skittles@aol.com",
   #       :password => "rainbows"
   #     }
   #     post '/signup', params
-  #     expect(last_response.location).to include("/tweets")
+  #     expect(last_response.location).to include("/courses")
   #   end
 
   #   it 'does not let a user sign up without a username' do

@@ -1,0 +1,17 @@
+<h1>All Courses Available</h1>
+
+
+<ol><% @courses.each do |course|%>
+        <li>
+        <h3>Course name: <%= course.name%> <%= course.icon%></h3>
+        <p>Description: <%= course.description%></p>
+        <p>Difficulty Level:
+            <% if course.level == 0 %>
+            Easy
+            <% elsif course.level == 1 %>
+            Intermediate
+            <% else %>
+            Hard
+            <% end%></p>
+            </li>
+<%end%></ol>
