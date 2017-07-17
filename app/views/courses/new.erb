@@ -1,0 +1,21 @@
+<%# IF instructor, show this page%>
+
+<h1>Create a New Course</h1>
+
+<div>
+    <form method="post" action="/courses">
+        <h3>Course name:</h3>
+        <input type="text" name="name" id="name" />
+
+        <h3>Course icon:</h3>
+        <input type="text" name="icon" id="icon" />
+
+        <h3>Description: </h3>
+        <input type="text" name="description" id="description" />
+
+        <h3>Difficulty level: </h3>
+        <input type="text" name="level" id="level" />
+                
+        <p><input type="submit" value="Create Course"></p>
+    </form>
+</div>

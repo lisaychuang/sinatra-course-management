@@ -49,7 +49,19 @@ class UserController < ApplicationController
         end
     end
 
-    get '/users/:id' do 
+    get "/users/:slug" do 
+        @user = User.find_by_slug(params[:slug])
+        
+        # if user is an instructor
+            # display courses_teaching
+            # include DELETE button to delete course
+        #else
+            #display courses_registered
+            # include DELETE button to delete course
+
+
+
+        erb :"/users/show"
     end
 
 

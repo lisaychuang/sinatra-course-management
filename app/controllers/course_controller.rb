@@ -5,5 +5,10 @@ class CourseController < ApplicationController
         erb :"/courses/index"
     end
 
+    get '/courses/new' do
+
+        erb :"/courses/new"
+    end
+
 
 end

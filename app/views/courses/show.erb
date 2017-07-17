@@ -1,0 +1,20 @@
+<h1>Course information</h1>
+
+<div>
+    <h3>Course name: <%= course.name%> <%= course.icon%></h3>
+    <p>Description: <%= course.description%></p>
+    <p>Difficulty Level:
+        <% if course.level == 0 %>
+        Easy
+        <% elsif course.level == 1 %>
+        Intermediate
+        <% else %>
+        Hard
+        <% end%></p>
+</div>
+
+<%# IF @user = student %>
+<%# Show registration status radio buttons%>
+
+<%# IF @user = instructor && owns course %>
+<%# Show registered students & status radio buttons%>
