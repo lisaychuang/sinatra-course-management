@@ -37,11 +37,13 @@ class CourseController < ApplicationController
         end
     end
 
+    # Instructor can EDIT a course information
     get '/courses/:id/edit' do
         @course = find_course(params[:id])
         erb :"/courses/edit"
     end
 
+    # UPDATE course based on form input
     patch '/courses/:id' do
         @course = find_course(params[:id])
         @course.update(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1)
@@ -59,6 +61,7 @@ class CourseController < ApplicationController
         end
     end
 
+    # UPDATE Student course registration
     post '/courses/:id/registration' do
         @course = find_course(params[:id])
         @new_enrollment = UserCourse.create(notes: params[:notes], user_id: current_user.id, course_id: params[:id])
