@@ -3,8 +3,6 @@ class CourseController < ApplicationController
     # View all courses
     get '/courses' do
         @courses = Course.all
-        @current_user = current_user
-        
         erb :"/courses/index"
     end
 
@@ -62,7 +60,7 @@ class CourseController < ApplicationController
     end
 
     post '/courses/:id/registration' do
-        @course = Course.find_by_id(params[:id])
+        @course = find_course(params[:id])
         @new_enrollment = UserCourse.create(notes: params[:notes], user_id: current_user.id, course_id: params[:id])
         @new_enrollment.save
 
