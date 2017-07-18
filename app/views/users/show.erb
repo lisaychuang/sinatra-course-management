@@ -2,13 +2,15 @@
 
 <div>
     <h3>Full Name: </h3>
-    <p><%=current_user.full_name%></p>
+    <p><%=@user.full_name%></p>
 
     <h3>Email: </h3>
-    <p><%=current_user.email%></p>
+    <p><%=@user.email%></p>
 
     <h3>Biography: </h3>
-    <p><%=current_user.biography%></p>
+    <p><%=@user.biography%></p>
 
-    <h3><a href="/users/<%=current_user.id%>/edit">Update my account information</a></h3>
+    <% if current_user.id === @user.id%>
+        <h3><a href="/users/<%=current_user.id%>/edit">Update my account information</a></h3>
+    <% end %>
 </div>

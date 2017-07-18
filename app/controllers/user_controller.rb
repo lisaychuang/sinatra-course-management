@@ -65,15 +65,19 @@ class UserController < ApplicationController
     end
 
     get "/users/:id" do 
+        @user = User.find_by_id(params[:id])
         erb :"/users/show"
     end
 
     get "/users/:id/edit" do 
-        erb :"/users/edit"
+        if current_user.id === params[:id].to_i
+            erb :"/users/edit"
+        else
+            redirect to "/users/#{params[:id]}"
+        end
     end
 
     patch "/users/:id" do
-        binding.pry
         if current_user.authenticate(params[:old_password])
             current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
             redirect to "/users/#{current_user.id}"
