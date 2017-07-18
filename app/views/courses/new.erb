@@ -11,10 +11,11 @@
         <input type="text" name="icon" id="icon" />
 
         <h3>Description: </h3>
-        <input type="text" name="description" id="description" />
+        <textarea name="description" id="description" rows="4" cols="50">
+        </textarea>
 
         <h3>Difficulty level: </h3>
-        <input type="text" name="level" id="level" />
+        <p>Easy<input type="range" name="level" id="level" min="1" max="3" step="1" />Advanced</p>
                 
         <p><input type="submit" value="Create Course"></p>
     </form>

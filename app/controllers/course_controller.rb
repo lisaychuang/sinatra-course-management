@@ -9,9 +9,16 @@ class CourseController < ApplicationController
         erb :"/courses/index"
     end
 
+    # only instructors can create new courses
     get '/courses/new' do
+        @current_user = User.find_by_id(session[:user_id])
 
-        erb :"/courses/new"
+        if @current_user.instructor 
+            erb :"/courses/new"
+        else
+            redirect to "/courses"
+        end
+        
     end
 
     post '/courses' do

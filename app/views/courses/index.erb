@@ -1,7 +1,7 @@
 <h1>All Courses Available</h1>
 
-
 <div>
+    <div>
     <ol><% @courses.each_with_index do |course, index|%>
         <li>
         <h3>Course name: <%= course.name%> <%= course.icon%></h3>
@@ -17,6 +17,7 @@
             </li>
         <p>Instructor name: <%= @names[index]%> </p>
     <%end%></ol>
+    </div>
 
     <div>
         <%# IF Student, show registration status%>

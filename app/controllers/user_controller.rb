@@ -57,10 +57,9 @@ class UserController < ApplicationController
     # Instructors can view courses they are teaching
     get '/teaching' do
         @current_user = User.find_by_id(session[:user_id])
-
-        binding.pry
-        @my_courses = Course.all.map {|course|
+        @courses = Course.all.map {|course|
             course.id if course.instructor_id === @current_user.id}
+        @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
         
         erb :"/courses/my_courses"
     end
