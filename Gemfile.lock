@@ -49,6 +49,8 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.6.4)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -112,6 +114,7 @@ DEPENDENCIES
   capybara
   database_cleaner!
   pry
+  rack-flash3
   rack-test
   rake
   require_all
@@ -124,4 +127,4 @@ DEPENDENCIES
   tux
 
 BUNDLED WITH
-   1.10.6
+   1.15.1

@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  
+
     get '/signup' do
         if logged_in?
             redirect to "/courses"
@@ -48,7 +48,7 @@ class UserController < ApplicationController
         end
     end
 
-    # Student can view courses enrolled & their status
+    # Student can view courses enrolled & registration status
     get '/enrolled' do
 
         erb :"/courses/my_enrollment"

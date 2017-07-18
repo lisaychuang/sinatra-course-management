@@ -1,22 +1,19 @@
 class CourseController < ApplicationController
-
+    
     get '/courses' do
         @courses = Course.all
-        @current_user = User.find_by_id(session[:user_id])
+        @current_user = current_user
         
         erb :"/courses/index"
     end
 
     # only instructors can create new courses
     get '/courses/new' do
-        @current_user = User.find_by_id(session[:user_id])
-
-        if @current_user.instructor 
+        if current_user.instructor 
             erb :"/courses/new"
         else
             redirect to "/courses"
         end
-        
     end
 
     post '/courses' do
@@ -26,6 +23,29 @@ class CourseController < ApplicationController
     end
 
     get '/courses/:id' do
+        @course = Course.find_by_id(params[:id])
+        if logged_in?
+            erb :"/courses/show"
+        else
+            redirect to "/login"
+        end
+    end
+
+    patch '/courses/:id' do
+        @course = Course.find_by_id(params[:id])
+        @course.update(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1)
+        binding.pry
+        if current_user.instructor && current_user.id === @course.instructor.id
+            if @course.save
+                flash[:message] = "Successfully edited course."
+                redirect to "/courses/#{@course.id}"
+            else 
+                flash[:message] = "Something went wrong. Please try to edit course again."
+                redirect to "/courses/#{@course.id}"
+            end
+        else
+            redirect to "/courses/#{@course.id}"
+        end
     end
 
 

@@ -3,7 +3,7 @@
 <div>
     <ol><% @my_courses.each do |course|%>
         <li>
-        <h3>Course name: <%= course.name%> <%= course.icon%></h3>
+        <h3><a href="/courses/<%=course.id%>"><%= course.name%></a> <%= course.icon%></h3>
         <p>Description: <%= course.description%></p>
         <p>Difficulty Level:
             <% if course.level == 0 %>

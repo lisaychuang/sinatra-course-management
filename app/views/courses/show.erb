@@ -1,20 +1,53 @@
 <h1>Course information</h1>
 
 <div>
-    <h3>Course name: <%= course.name%> <%= course.icon%></h3>
-    <p>Description: <%= course.description%></p>
+    <h3>Course name: <%= @course.name%> <%= @course.icon%></h3>
+    <p>Description: <%= @course.description%></p>
     <p>Difficulty Level:
-        <% if course.level == 0 %>
-        Easy
-        <% elsif course.level == 1 %>
-        Intermediate
+        <% if @course.level == 0 %>
+            Easy
+        <% elsif @course.level == 1 %>
+            Intermediate
         <% else %>
-        Hard
+            eHard
         <% end%></p>
 </div>
 
-<%# IF @user = student %>
-<%# Show registration status radio buttons%>
+<div>
+    <%# IF @user = instructor && owns course , show EDIT form %>
+    <%# Show registered students & status radio buttons%>
+    <% if current_user.instructor && current_user.id === @course.instructor.id%>
+        <h3>Edit course information:</h3>
 
-<%# IF @user = instructor && owns course %>
-<%# Show registered students & status radio buttons%>
+        <form method="post" action="/courses/<%=@course.id%>">
+        <input id="hidden" type="hidden" name="_method" value="patch">
+
+        <h3>Course name:</h3>
+        <input type="text" name="name" id="name" />
+
+        <h3>Course icon:</h3>
+        <input type="text" name="icon" id="icon" />
+
+        <h3>Description: </h3>
+        <textarea name="description" id="description" rows="4" cols="50"></textarea>
+
+        <h3>Difficulty level: </h3>
+        <p>Easy<input type="range" name="level" id="level" min="1" max="3" step="1" />Advanced</p>
+                
+        <p><input type="submit" value="Edit Course"></p>
+        
+        </form>
+    
+    <%# IF @user = instructor but DOES NOT own class, display message %>
+    <% elsif current_user.instructor %>
+        <h3>You are not authorized to edit this course</h3>
+    
+    <%# IF @user = student, show Enrollment status %>
+    <% elsif !current_user.instructor %> 
+        <a href="/enrolled"><p>Enrollment status </a></p>
+    <% end %>
+
+</div>
+
+<%# IF Student, Show registration status radio buttons%>
+
