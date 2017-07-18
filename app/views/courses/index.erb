@@ -11,14 +11,7 @@
         <%end%>
 
         <p>Description: <%= course.description%></p>
-        <p>Difficulty Level:
-            <% if course.level == 0 %>
-            Easy
-            <% elsif course.level == 1 %>
-            Intermediate
-            <% else %>
-            Hard
-            <% end%></p>
+        <p>Difficulty Level: <%=course_difficulty(course.level) %></p>
             </li>
         <p>Instructor name: <%= course.instructor.full_name %> </p>
     <%end%></ol>

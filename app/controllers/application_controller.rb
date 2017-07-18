@@ -22,11 +22,27 @@ class ApplicationController < Sinatra::Base
       User.find_by_id(session[:user_id])
     end
 
-    def instructor_name(id)
-        binding.pry
-        @instructor = User.find_by_id(id)
-        @instructor.full_name
+    def course_difficulty(num)
+        if num === 0
+          "Easy"
+        elsif num === 1
+          "Intermediate"
+        else
+          "Hard"
+        end
     end
+
+    def registration_status(num)
+        if num === 0
+          "Pending"
+        elsif num === 1
+          "Waitlisted"
+        else
+          "Enrolled"
+        end
+    end
+    
+
     
   end
 

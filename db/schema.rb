@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170715192720) do
   end
 
   create_table "user_courses", force: :cascade do |t|
-    t.integer "confirmation"
+    t.integer "confirmation", default: 0
     t.string  "notes"
     t.integer "user_id"
     t.integer "course_id"

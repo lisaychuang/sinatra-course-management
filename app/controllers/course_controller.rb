@@ -24,6 +24,11 @@ class CourseController < ApplicationController
 
     get '/courses/:id' do
         @course = Course.find_by_id(params[:id])
+        @existing_registration = nil
+        if !current_user.instructor
+            @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
+        end
+        
         if logged_in?
             erb :"/courses/show"
         else
@@ -36,7 +41,6 @@ class CourseController < ApplicationController
         @course.update(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1)
 
         if current_user.instructor && current_user.id === @course.instructor.id
-            binding.pry
             if @course.save
                 flash[:message] = "Successfully edited course."
                 redirect to "/courses/#{@course.id}"
@@ -50,6 +54,10 @@ class CourseController < ApplicationController
     end
 
     post '/courses/:id/registration' do
+        @new_enrollment = UserCourse.create(notes: params[:notes], user_id: current_user.id, course_id: params[:id])
+        @new_enrollment.save
+
+        redirect to "/courses/#{@course.id}"
     end
 
 end

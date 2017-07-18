@@ -4,14 +4,7 @@
     <span style='font-size: 5rem'><%= @course.icon%></span>
     <h3>Course name: <%= @course.name%> </h3>
     <p>Description: <%= @course.description%></p>
-    <p>Difficulty Level:
-        <% if @course.level == 0 %>
-            Easy
-        <% elsif @course.level == 1 %>
-            Intermediate
-        <% else %>
-            Hard
-        <% end%></p>
+    <p>Difficulty Level: <%=course_difficulty(@course.level) %></p>
 
         <% if flash.has?(:message) %>
             <%= flash[:message] %>
@@ -49,17 +42,22 @@
     
     <%# IF @user = student, show Enrollment status %>
     <% elsif !current_user.instructor %> 
-        <h3><a href="/enrolled">Student's' enrollment status </a></h3>
-        
-        <form method="post" action="/course/<%=@course.id%>/registration">
-        
-        <input type="radio" name="confirmation" value="0"> Request to enroll in course
-        <input type="radio" name="confirmation" value="1"> Waitlisted
-        <input type="radio" name="confirmation" value="2"> Enrolled
-        
-        <p><input type="submit" value="Confirm registration"></p>
-        </form>
 
+    <% if @existing_registration %>
+        <h3>You are already registered!</h3>
+        <h3>Your enrollment status: <%=registration_status(@existing_registration.confirmation) %></h3>
+    <%else%>
+
+        <h3>Request to Enroll in course</h3>
+        
+        <form method="post" action="/courses/<%=@course.id%>/registration">
+
+            <p>Enrollment notes to instructor:</p>
+            <p><textarea name="notes" id="notes" rows="4" cols="50"></textarea></p>
+            
+            <p><input type="submit" value="Request to Enroll"></p>
+        </form>
+    <%end%>
 
     <% end %>
 
