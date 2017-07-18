@@ -2,7 +2,7 @@
 
 <div>
     <div>
-    <ol><% @courses.each_with_index do |course, index|%>
+    <ol><% @courses.each do |course|%>
         <li>
         <h3>Course name: <%= course.name%> <%= course.icon%></h3>
         <p>Description: <%= course.description%></p>
@@ -15,7 +15,7 @@
             Hard
             <% end%></p>
             </li>
-        <p>Instructor name: <%= @names[index]%> </p>
+        <p>Instructor name: <%= course.instructor.full_name %> </p>
     <%end%></ol>
     </div>
 
