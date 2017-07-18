@@ -69,13 +69,13 @@ class UserController < ApplicationController
     end
 
     # READ a single user information
-    get "/users/:id" do 
+    get '/users/:id' do 
         @user = User.find_by_id(params[:id])
         erb :"/users/show"
     end
 
     # User can only EDIT their account information 
-    get "/users/:id/edit" do 
+    get '/users/:id/edit' do 
         if current_user.id === params[:id].to_i
             erb :"/users/edit"
         else
@@ -84,12 +84,22 @@ class UserController < ApplicationController
     end
 
     # UPDATE user information based on form data
-    patch "/users/:id" do
+    patch '/users/:id' do
         if current_user.authenticate(params[:old_password])
             current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
             redirect to "/users/#{current_user.id}"
         else
             redirect to "/users/#{current_user.id}/edit"
+        end
+    end
+
+    # User can DELETE their own account
+    delete 'users/:id' do
+        if current_user.id === params[:id].to_i
+            current_user.destroy
+            redirect to "/"
+        else
+            redirect to "/users"
         end
     end
 
