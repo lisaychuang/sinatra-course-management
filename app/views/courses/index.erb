@@ -1,7 +1,8 @@
 <h1>All Courses Available</h1>
 
 
-<ol><% @courses.each do |course|%>
+<div>
+    <ol><% @courses.each_with_index do |course, index|%>
         <li>
         <h3>Course name: <%= course.name%> <%= course.icon%></h3>
         <p>Description: <%= course.description%></p>
@@ -14,4 +15,15 @@
             Hard
             <% end%></p>
             </li>
-<%end%></ol>
+        <p>Instructor name: <%= @names[index]%> </p>
+    <%end%></ol>
+
+    <div>
+        <%# IF Student, show registration status%>
+        <% if !@current_user.instructor %>
+            <a href="/enrolled"><p>Click here for my enrolled classes </a></p>
+        <% else %> <%# IF Instructor, show course_teaching%>
+            <a href="/teaching"><p>Click here for my courses </a></p>
+        <% end %>
+    </div>
+</div>

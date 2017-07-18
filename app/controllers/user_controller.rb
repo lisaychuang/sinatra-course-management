@@ -30,7 +30,6 @@ class UserController < ApplicationController
 
     post '/login' do
         @user = User.find_by(username: params[:username])
-        binding.pry
 
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
@@ -47,6 +46,23 @@ class UserController < ApplicationController
         else
             redirect to "/"
         end
+    end
+
+    # Student can view courses enrolled & their status
+    get '/enrolled' do
+
+        erb :"/courses/my_enrollment"
+    end
+
+    # Instructors can view courses they are teaching
+    get '/teaching' do
+        @current_user = User.find_by_id(session[:user_id])
+
+        binding.pry
+        @my_courses = Course.all.map {|course|
+            course.id if course.instructor_id === @current_user.id}
+        
+        erb :"/courses/my_courses"
     end
 
     get "/users/:slug" do 
