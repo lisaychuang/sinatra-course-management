@@ -102,10 +102,10 @@ class UserController < ApplicationController
     end
 
     # User can DELETE their own account
-    delete 'users/:id' do
+    delete '/users/:id' do
         if current_user.id === params[:id].to_i
             current_user.destroy
-            redirect to "/"
+            redirect to "/users"
         else
             redirect to "/users"
         end

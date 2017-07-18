@@ -34,7 +34,7 @@
     <p><input type="submit" value="Update Account"></p>
 </form>
 
-<form method="post" action="">
+<form method="post" action="/users/<%=current_user.id%>">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete My Account">
 </form>

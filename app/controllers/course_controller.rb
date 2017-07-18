@@ -68,8 +68,9 @@ class CourseController < ApplicationController
 
     # Instructor can DELETE their own courses
     delete 'courses/:id' do
+        @course = find_course(params[:id])
         if current_user.id === @course.instructor.id
-            @course = find_course(params[:id]).destroy
+            @course.destroy
             redirect to "/teaching"
         else
             redirect to "/courses"
