@@ -42,8 +42,9 @@ class ApplicationController < Sinatra::Base
         end
     end
     
-
-    
+    def find_course(id)
+      Course.find_by_id(id)
+    end
   end
 
 end

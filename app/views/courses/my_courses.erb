@@ -5,14 +5,7 @@
         <li>
         <h3><a href="/courses/<%=course.id%>"><%= course.name%></a> <%= course.icon%></h3>
         <p>Description: <%= course.description%></p>
-        <p>Difficulty Level:
-            <% if course.level == 0 %>
-            Easy
-            <% elsif course.level == 1 %>
-            Intermediate
-            <% else %>
-            Hard
-            <% end%></p>
+        <p>Difficulty Level: <%=course_difficulty(course.level)%></p>
             </li>
     <%end%></ol>
 </div>

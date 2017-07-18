@@ -1,0 +1,9 @@
+<h1>List of my enrolled courses</h1>
+<div>
+    <ol><% @enrollments.each do |enrollment|%>
+        <li>
+            <p>Course name: <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a> </p>
+            <p>Enrollment status: <%=registration_status(enrollment.confirmation)%> </p>
+        </li>
+    <%end%></ol>
+</div>

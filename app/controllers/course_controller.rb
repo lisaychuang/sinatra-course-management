@@ -54,6 +54,7 @@ class CourseController < ApplicationController
     end
 
     post '/courses/:id/registration' do
+        @course = Course.find_by_id(params[:id])
         @new_enrollment = UserCourse.create(notes: params[:notes], user_id: current_user.id, course_id: params[:id])
         @new_enrollment.save
 

@@ -50,15 +50,15 @@ class UserController < ApplicationController
 
     # Student can view courses enrolled & registration status
     get '/enrolled' do
+        @enrollments = UserCourse.where(user_id: current_user.id)
 
         erb :"/courses/my_enrollment"
     end
 
     # Instructors can view courses they are teaching
     get '/teaching' do
-        @current_user = User.find_by_id(session[:user_id])
         @courses = Course.all.map {|course|
-            course.id if course.instructor_id === @current_user.id}
+            course.id if course.instructor_id === current_user.id}
         @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
         
         erb :"/courses/my_courses"
