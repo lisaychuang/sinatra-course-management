@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-
+    # Only new user will see the signup page
     get '/signup' do
         if logged_in?
             redirect to "/courses"
@@ -8,6 +8,7 @@ class UserController < ApplicationController
         end
     end
 
+    # CREATE a new user based on form information
     post '/signup' do
         @user = User.create(full_name: params[:full_name], username: params[:username], email: params[:email], password: params[:password])
         @user.instructor = true if params[:instructor] == "yes"
@@ -20,6 +21,7 @@ class UserController < ApplicationController
         end
     end
 
+    # User currently logged in will view the Courses page directly
     get '/login' do
         if logged_in?
             redirect to "/courses"
@@ -28,6 +30,7 @@ class UserController < ApplicationController
         end
     end
 
+    # Verify user information to Log In
     post '/login' do
         @user = User.find_by(username: params[:username])
 
@@ -39,6 +42,7 @@ class UserController < ApplicationController
         end
     end
 
+    # Log Out process
     get '/logout' do
         if logged_in?
             session.clear
@@ -64,11 +68,13 @@ class UserController < ApplicationController
         erb :"/courses/my_courses"
     end
 
+    # READ a single user information
     get "/users/:id" do 
         @user = User.find_by_id(params[:id])
         erb :"/users/show"
     end
 
+    # User can only EDIT their account information 
     get "/users/:id/edit" do 
         if current_user.id === params[:id].to_i
             erb :"/users/edit"
@@ -77,6 +83,7 @@ class UserController < ApplicationController
         end
     end
 
+    # UPDATE user information based on form data
     patch "/users/:id" do
         if current_user.authenticate(params[:old_password])
             current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
