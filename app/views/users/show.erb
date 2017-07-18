@@ -12,10 +12,5 @@
 
     <% if current_user.id === @user.id%>
         <h3><a href="/users/<%=current_user.id%>/edit">Update my account information</a></h3>
-
-        <form method="post" action="">
-            <input id="hidden" type="hidden" name="_method" value="delete">
-            <input type="submit" value="Delete My Account">
-        </form>
     <% end %>
 </div>
