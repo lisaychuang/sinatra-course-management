@@ -14,7 +14,34 @@
         <p><a href="/courses/<%=@course.id%>/edit"><p>Click here to edit course details </a></p>
 
         <hr>
-        <h2>Students enrollment status:</h2>
+        <div>
+        <h2>Students Enrollment Status:</h2>
+
+            <table style="width:50%"> <%# border:1px solid black%>
+                <tr>
+                    <th>No.</th>
+                    <th>Student Name</th>
+                    <th>Enrollment Status</th>
+                    <th>Select: Waitlisted</th>
+                    <th>Select: Enrolled</th>
+                    <th>Confirm Change</th>
+                </tr>
+            
+            <%@course_enrollment.each_with_index do |enrollment, index|%>
+
+                <tr>
+                    <form method="post" action="/courses/<%=@course.id%>/enrollment">
+                        <td><%=index.to_i+1%></td>
+                        <td><%=User.find_by_id(enrollment.user_id).full_name%> </td>
+                        <td><%=registration_status(enrollment.confirmation)%> </td>
+                        <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_1"></td>
+                        <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_2"></td>
+                        <td><input type="submit" value="Save"></td>
+                    </form>
+                </tr>
+            <%end%></table>
+
+        </div>
 
     
     <%# IF @user = instructor but DOES NOT own class, display message %>
