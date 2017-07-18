@@ -39,13 +39,12 @@ class CourseController < ApplicationController
         end
     end
 
-    # Instructor will update student enrollment status
+    # Instructor can update student enrollment status
     post '/courses/:id/enrollment' do
         @course = find_course(params[:id])
         if current_user.instructor && current_user.id === @course.instructor.id
             @student_enrollment = UserCourse.find_by_id(params[:confirmation][0].to_i)
-            @student_enrollment.confirmation = params[:confirmation][2].to_i
-            @student_enrollment.save
+            @student_enrollment.update(confirmation: params[:confirmation][2].to_i)
 
             redirect to "/courses/#{@course.id}"
         else

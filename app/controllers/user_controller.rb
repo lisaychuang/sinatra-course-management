@@ -67,6 +67,18 @@ class UserController < ApplicationController
         erb :"/courses/my_enrollment"
     end
 
+    # Student can update courses enrolled
+    get '/update_enrollment' do
+        @enrollments = UserCourse.where(user_id: current_user.id)
+        erb :"/courses/edit_my_enrollment"
+    end
+
+    patch '/update_enrollment' do
+        @student_enrollment = UserCourse.find_by_id(params[:id].first[0].to_s)
+        @student_enrollment.update(notes: params[:enrollment])
+        redirect to "/enrolled"
+    end
+
     # Instructors can view courses they are teaching
     get '/teaching' do
         @courses = Course.all.map {|course|

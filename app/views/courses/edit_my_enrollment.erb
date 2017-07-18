@@ -1,0 +1,23 @@
+<h1>List of my enrolled courses</h1>
+<div>
+    <ol><% @enrollments.each do |enrollment|%>
+        <li>
+            <p>Course name: <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a> 
+                <%= find_course(enrollment.course_id).icon%></p>
+            <p>Enrollment status: <%=registration_status(enrollment.confirmation)%> </p>
+
+            <%# IF confirmation == pending, student can update note%>
+            <% if enrollment.confirmation == 0 %>
+                <form method="post" action="/update_enrollment">
+                <input id="hidden" type="hidden" name="_method" value="patch">
+
+                    <h3>Enrollment request</h3>
+                    <textarea name="enrollment" id="notes" rows="4" cols="50"><%=enrollment.notes%></textarea>
+                    <p><input type="submit" value="Update request" name="id[<%=enrollment.id%>]"></p>
+                </form>
+                
+
+            <%end%>
+        </li>
+    <%end%></ol>
+</div>
