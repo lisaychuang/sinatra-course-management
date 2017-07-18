@@ -40,7 +40,6 @@ class CourseController < ApplicationController
     # Instructor can EDIT a course information
     get '/courses/:id/edit' do
         @course = find_course(params[:id])
-        binding.pry
         if current_user.instructor && current_user.id === @course.instructor.id
             erb :"/courses/edit"
         else
@@ -67,7 +66,7 @@ class CourseController < ApplicationController
     end
 
     # Instructor can DELETE their own courses
-    delete 'courses/:id' do
+    delete '/courses/:id' do
         @course = find_course(params[:id])
         if current_user.id === @course.instructor.id
             @course.destroy
