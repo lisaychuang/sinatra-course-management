@@ -1,7 +1,8 @@
 <h1>Course information</h1>
 
 <div>
-    <h3>Course name: <%= @course.name%> <%= @course.icon%></h3>
+    <span style='font-size: 5rem'><%= @course.icon%></span>
+    <h3>Course name: <%= @course.name%> </h3>
     <p>Description: <%= @course.description%></p>
     <p>Difficulty Level:
         <% if @course.level == 0 %>
@@ -9,8 +10,12 @@
         <% elsif @course.level == 1 %>
             Intermediate
         <% else %>
-            eHard
+            Hard
         <% end%></p>
+
+        <% if flash.has?(:message) %>
+            <%= flash[:message] %>
+        <% end %>
 </div>
 
 <div>
@@ -44,7 +49,18 @@
     
     <%# IF @user = student, show Enrollment status %>
     <% elsif !current_user.instructor %> 
-        <a href="/enrolled"><p>Enrollment status </a></p>
+        <h3><a href="/enrolled">Student's' enrollment status </a></h3>
+        
+        <form method="post" action="/course/<%=@course.id%>/registration">
+        
+        <input type="radio" name="confirmation" value="0"> Request to enroll in course
+        <input type="radio" name="confirmation" value="1"> Waitlisted
+        <input type="radio" name="confirmation" value="2"> Enrolled
+        
+        <p><input type="submit" value="Confirm registration"></p>
+        </form>
+
+
     <% end %>
 
 </div>

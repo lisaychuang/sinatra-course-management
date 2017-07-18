@@ -34,8 +34,9 @@ class CourseController < ApplicationController
     patch '/courses/:id' do
         @course = Course.find_by_id(params[:id])
         @course.update(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1)
-        binding.pry
+
         if current_user.instructor && current_user.id === @course.instructor.id
+            binding.pry
             if @course.save
                 flash[:message] = "Successfully edited course."
                 redirect to "/courses/#{@course.id}"
@@ -48,5 +49,7 @@ class CourseController < ApplicationController
         end
     end
 
+    post '/courses/:id/registration' do
+    end
 
 end

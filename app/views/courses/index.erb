@@ -4,7 +4,12 @@
     <div>
     <ol><% @courses.each do |course|%>
         <li>
-        <h3>Course name: <%= course.name%> <%= course.icon%></h3>
+        <% if @current_user.instructor%>
+            <h3>Course name: <%= course.name%> <%= course.icon%></h3>
+        <% else %>
+            <h3>Course name: <a href="/courses/<%=course.id%>"><%= course.name%> </a> <%= course.icon%></h3>
+        <%end%>
+
         <p>Description: <%= course.description%></p>
         <p>Difficulty Level:
             <% if course.level == 0 %>
