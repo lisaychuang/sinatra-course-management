@@ -64,21 +64,22 @@ class UserController < ApplicationController
         erb :"/courses/my_courses"
     end
 
-    get "/users/:slug" do 
-        @user = User.find_by_slug(params[:slug])
-        
-        # if user is an instructor
-            # display courses_teaching
-            # include DELETE button to delete course
-        #else
-            #display courses_registered
-            # include DELETE button to delete course
-
-
-
+    get "/users/:id" do 
         erb :"/users/show"
     end
 
+    get "/users/:id/edit" do 
+        erb :"/users/edit"
+    end
 
+    patch "/users/:id" do
+        binding.pry
+        if current_user.authenticate(params[:old_password])
+            current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
+            redirect to "/users/#{current_user.id}"
+        else
+            redirect to "/users/#{current_user.id}/edit"
+        end
+    end
 
 end

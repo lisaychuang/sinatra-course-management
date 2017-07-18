@@ -1,1 +1,14 @@
 <h1>My account information:</h1>
+
+<div>
+    <h3>Full Name: </h3>
+    <p><%=current_user.full_name%></p>
+
+    <h3>Email: </h3>
+    <p><%=current_user.email%></p>
+
+    <h3>Biography: </h3>
+    <p><%=current_user.biography%></p>
+
+    <h3><a href="/users/<%=current_user.id%>/edit">Update my account information</a></h3>
+</div>

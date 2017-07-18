@@ -1,0 +1,38 @@
+<h1>My account information:</h1>
+
+<div>
+    <h3>Full Name: </h3>
+    <p><%=current_user.full_name%></p>
+
+    <h3>Email: </h3>
+    <p><%=current_user.email%></p>
+
+    <h3>Biography: </h3>
+    <p><%=current_user.biography%></p>
+
+</div>
+
+<hr>
+<div>
+<form method="post" action="/users/<%=current_user.id%>">
+<input id="hidden" type="hidden" name="_method" value="patch">
+    
+    <h2>Update account information </h2>
+    <h3>New email:</h3>
+    <p><input type="text" name="email" id="email" ></p>
+
+
+    <h3>New biography: </h3>
+    <textarea name="biography" id="biography" rows="4" cols="50"></textarea>
+
+    <h3>Current password</h3>
+    <p><input type="password" name="old_password" id="old_password"></p>
+
+    <h3>New password</h3>
+    <p><input type="password" name="new_password" id="new_password"></p>
+
+    <p><input type="submit" value="Update Account"></p>
+</form>
+
+
+</div>
