@@ -12,6 +12,10 @@
     <%# Show registered students & status radio buttons%>
     <% if current_user.instructor && current_user.id === @course.instructor.id%>
         <p><a href="/courses/<%=@course.id%>/edit"><p>Click here to edit course details </a></p>
+
+        <hr>
+        <h2>Students enrollment status:</h2>
+
     
     <%# IF @user = instructor but DOES NOT own class, display message %>
     <% elsif current_user.instructor %>
@@ -41,6 +45,3 @@
     <% end %>
 
 </div>
-
-<%# IF Student, Show registration status radio buttons%>
-
