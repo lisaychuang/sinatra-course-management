@@ -5,36 +5,13 @@
     <h3>Course name: <%= @course.name%> </h3>
     <p>Description: <%= @course.description%></p>
     <p>Difficulty Level: <%=course_difficulty(@course.level) %></p>
-
-        <% if flash.has?(:message) %>
-            <%= flash[:message] %>
-        <% end %>
 </div>
 
 <div>
     <%# IF @user = instructor && owns course , show EDIT form %>
     <%# Show registered students & status radio buttons%>
     <% if current_user.instructor && current_user.id === @course.instructor.id%>
-        <h3>Edit course information:</h3>
-
-        <form method="post" action="/courses/<%=@course.id%>">
-        <input id="hidden" type="hidden" name="_method" value="patch">
-
-        <h3>Course name:</h3>
-        <input type="text" name="name" id="name" />
-
-        <h3>Course icon:</h3>
-        <input type="text" name="icon" id="icon" />
-
-        <h3>Description: </h3>
-        <textarea name="description" id="description" rows="4" cols="50"></textarea>
-
-        <h3>Difficulty level: </h3>
-        <p>Easy<input type="range" name="level" id="level" min="1" max="3" step="1" />Advanced</p>
-                
-        <p><input type="submit" value="Edit Course"></p>
-        
-        </form>
+        <p><a href="/courses/<%=@course.id%>/edit"><p>Click here to edit course details </a></p>
     
     <%# IF @user = instructor but DOES NOT own class, display message %>
     <% elsif current_user.instructor %>
@@ -44,8 +21,10 @@
     <% elsif !current_user.instructor %> 
 
     <% if @existing_registration %>
-        <h3>You are already registered!</h3>
+        <h3>You are registered!</h3>
         <h3>Your enrollment status: <%=registration_status(@existing_registration.confirmation) %></h3>
+
+        <p><a href="/enrolled"><p>Click here for my enrolled courses </a></p>
     <%else%>
 
         <h3>Request to Enroll in course</h3>

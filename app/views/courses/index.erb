@@ -20,7 +20,7 @@
     <div>
         <%# IF Student, show registration status%>
         <% if !@current_user.instructor %>
-            <a href="/enrolled"><p>Click here for my enrolled classes </a></p>
+            <a href="/enrolled"><p>Click here for my enrolled courses </a></p>
         <% else %> <%# IF Instructor, show course_teaching%>
             <a href="/teaching"><p>Click here for my courses </a></p>
         <% end %>
