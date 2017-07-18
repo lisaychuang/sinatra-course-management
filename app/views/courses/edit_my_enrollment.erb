@@ -15,7 +15,12 @@
                     <textarea name="enrollment" id="notes" rows="4" cols="50"><%=enrollment.notes%></textarea>
                     <p><input type="submit" value="Update request" name="id[<%=enrollment.id%>]"></p>
                 </form>
-                
+                <% else %>
+                <form method="post" action="/delete_enrollment">
+                <input id="hidden" type="hidden" name="_method" value="delete">
+
+                    <p><input type="submit" value="Cancel Request" name="id[<%=enrollment.id%>]"></p>
+                </form>
 
             <%end%>
         </li>

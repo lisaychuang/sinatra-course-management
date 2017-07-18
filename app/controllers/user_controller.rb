@@ -73,11 +73,25 @@ class UserController < ApplicationController
         erb :"/courses/edit_my_enrollment"
     end
 
+    # Update enrollment request note from form input
     patch '/update_enrollment' do
         @student_enrollment = UserCourse.find_by_id(params[:id].first[0].to_s)
         @student_enrollment.update(notes: params[:enrollment])
         redirect to "/enrolled"
     end
+
+    # Delete student's own enrollment request
+    delete '/delete_enrollment' do
+        @student_enrollment = UserCourse.find_by_id(params[:id].first[0].to_s)
+
+        if @student_enrollment.user_id == current_user.id
+            @student_enrollment.destroy
+            redirect to "/enrolled"
+        else
+            redirect to "/courses"
+        end
+    end
+
 
     # Instructors can view courses they are teaching
     get '/teaching' do

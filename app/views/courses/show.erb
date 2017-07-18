@@ -52,7 +52,7 @@
     <% elsif !current_user.instructor %> 
 
     <% if @existing_registration %>
-        <h3>You are registered!</h3>
+        <h3>You have already registered!</h3>
         <h3>Your enrollment status: <%=registration_status(@existing_registration.confirmation) %></h3>
 
         <p><a href="/enrolled"><p>Click here for my enrolled courses </a></p>
