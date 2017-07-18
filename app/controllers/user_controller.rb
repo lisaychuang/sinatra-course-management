@@ -52,6 +52,14 @@ class UserController < ApplicationController
         end
     end
 
+    # View list of all users
+    get '/users' do
+        @instructors = User.where(instructor: true)
+        @students = User.where(instructor: false)
+        
+        erb :"/users/index"
+    end
+    
     # Student can view courses enrolled & registration status
     get '/enrolled' do
         @enrollments = UserCourse.where(user_id: current_user.id)
