@@ -11,3 +11,7 @@ Course.create(name: "Front-End Warrior", description: "In this workshop you'll l
 Course.create(name: "Progressive Web Apps", description: "Progressive Web Apps give us a path to a better world that doesn't force us to write our app yet another time. We'll examine why you might build such a thing, what it takes to do it right, and strategies for getting the best mobile experience everywhere, today.", icon: "🔩", level: 0, instructor_id: 4)
 Course.create(name: "AMP", description: "Learn to use AMP!", icon: "🔥", level: 0, instructor_id: 6)
 
+UserCourse.create(notes: "Phoenix intro", user_id: 1, course_id: 1)
+UserCourse.create(notes: "Omg SVG!", user_id: 1, course_id: 2)
+UserCourse.create(notes: "This will be so useful for my work!", user_id: 5, course_id: 2)
+UserCourse.create(notes: "PWA for the win! woop woop!", user_id: 5, course_id: 4)

@@ -25,7 +25,6 @@ class CourseController < ApplicationController
     # View a single course page
     get '/courses/:id' do
         @course = find_course(params[:id])
-        binding.pry
         @course_enrollment = UserCourse.where(course_id: params[:id])
 
         @existing_registration = nil
