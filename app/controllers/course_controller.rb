@@ -41,7 +41,7 @@ class CourseController < ApplicationController
     get '/courses/:id/edit' do
         @course = find_course(params[:id])
         if current_user.instructor && current_user.id === @course.instructor.id
-            erb :"/courses/edit"
+            erb :"/courses/edit_course"
         else
             redirect to "/courses/#{@course.id}"
         end
