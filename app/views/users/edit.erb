@@ -10,7 +10,7 @@
     </div>
 
     <div class="mui-col-md-12 mui--divider-top">
-        <form class="mui-form" method="post" action="/users/<%=current_user.id%>">
+        <form class="mui-form" method="post" action="/users/<%=current_user.id%>" class="mui-form">
         <input id="hidden" type="hidden" name="_method" value="patch">
             
         <h1>Update account information </h1>
@@ -37,7 +37,7 @@
                 <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--primary">Update Account</button>
         </form>
 
-        <form method="post" action="/users/<%=current_user.id%>">
+        <form method="post" action="/users/<%=current_user.id%>" class="mui-form">
             <input id="hidden" type="hidden" name="_method" value="delete">
 
             <button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger">Delete My Account</button>
