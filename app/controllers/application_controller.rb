@@ -42,7 +42,7 @@ class ApplicationController < Sinatra::Base
         elsif num === 1
           "Intermediate"
         else
-          "Hard"
+          "Advanced"
         end
     end
 

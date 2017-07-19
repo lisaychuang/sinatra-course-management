@@ -1,37 +1,36 @@
-<div>
-    <h1>Course information:</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Edit course information:</h1>
 
-    <span style='font-size: 5rem'><%= @course.icon%></span>
-    <h3>Course name: <%= @course.name%> </h3>
-    <p>Description: <%= @course.description%></p>
-    <p>Difficulty Level: <%=course_difficulty(@course.level) %></p>
+        <form method="post" action="/courses/<%=@course.id%>" class="mui-form">
+        <input id="hidden" type="hidden" name="_method" value="patch">
 
-</div>
+        <legend>Course name</legend>
+        <div class="mui-textfield">
+            <input type="text" name="name" id="name" value="<%= @course.name%>"/>
+        </div>
 
-<div>
-    <h2>Edit course information:</h2>
+        <legend>Course icon</legend>
+        <div class="mui-textfield">
+            <input type="text" name="icon" id="icon" value="<%= @course.icon%>"/>
+        </div>
 
-    <form method="post" action="/courses/<%=@course.id%>">
-    <input id="hidden" type="hidden" name="_method" value="patch">
+        <legend>Description</legend>
+        <div class="mui-textfield">
+            <textarea name="description" id="description"><%= @course.description%></textarea>
+        </div>
 
-    <h3>Course name:</h3>
-    <input type="text" name="name" id="name" />
+        <h3>Difficulty level: </h3>
+        <p>Easy<input type="range" name="level" id="level" min="1" max="3" step="1" 
+            value="<%=@course.level.to_i+1%>"/>Advanced</p>
+                
+        <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--primary">Update Course</button>
+        
+        </form>
 
-    <h3>Course icon:</h3>
-    <input type="text" name="icon" id="icon" />
-
-    <h3>Description: </h3>
-    <textarea name="description" id="description" rows="4" cols="50"></textarea>
-
-    <h3>Difficulty level: </h3>
-    <p>Easy<input type="range" name="level" id="level" min="1" max="3" step="1" />Advanced</p>
-            
-    <p><input type="submit" value="Edit Course"></p>
-    
-    </form>
-
-    <form method="post" action="/courses/<%=@course.id%>">
-        <input id="hidden" type="hidden" name="_method" value="delete">
-        <input type="submit" value="Delete Course">
-    </form>
+        <form method="post" action="/courses/<%=@course.id%>" class="mui-form">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger">Delete Course</button>
+        </form>
+    </div>
 </div>
