@@ -1,16 +1,14 @@
 <h1>My account information:</h1>
 
 <div>
-    <h3>Full Name: </h3>
-    <p><%=@user.full_name%></p>
+    <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
 
-    <h3>Email: </h3>
-    <p><%=@user.email%></p>
+    <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
 
     <h3>Biography: </h3>
-    <p><%=@user.biography%></p>
+    <h4><%=@user.biography%></h4>
 
     <% if current_user.id === @user.id%>
-        <h3><a href="/users/<%=current_user.id%>/edit">Update my account information</a></h3>
+        <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
     <% end %>
 </div>
