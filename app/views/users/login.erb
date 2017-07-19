@@ -1,13 +1,21 @@
-<h1>Log in to Mike Works</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Log in to Mike Works</h1>
+    </div>
+    <div class="mui-col-md-8">
+        <form method="post" action="/login" class="mui-form"> 
 
-<form method="post" action="/login"> 
+                <div class="mui-textfield">
+                    <input type="text" placeholder="Username" name="username" id="username"/>
+                </div>
 
-    <h3>Username:</h3>
-    <p><input type="text" name="username" id="username"/></p>
-
-    <h3>Password:</h3>
-    <p><input type="text" name="password" id="password"/></p>
-
-    <input type="submit" value="submit">
-
-</form>
+                <div class="mui-textfield">
+                    <input type="password" placeholder="Password" name="password" id="password"/>
+                </div>
+   
+            <div>
+            <button type="submit" class="mui-btn mui-btn--primary">Submit </button>
+            </div>
+        </form>
+    </div>
+</div>
