@@ -1,74 +1,80 @@
-<h1>Course information</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">   
+        <h1>Course information</h1>
 
-<div>
-    <span style='font-size: 5rem'><%= @course.icon%></span>
-    <h3>Course name: <%= @course.name%> </h3>
-    <p>Description: <%= @course.description%></p>
-    <p>Difficulty Level: <%=course_difficulty(@course.level) %></p>
-</div>
-
-<div>
-    <%# IF @user = instructor && owns course , show EDIT form %>
-    <%# Show registered students & status radio buttons%>
-    <% if current_user.instructor && current_user.id === @course.instructor.id%>
-        <p><a href="/courses/<%=@course.id%>/edit"><p>Click here to edit course details </a></p>
-
-        <hr>
-        <div>
-        <h2>Students Enrollment Status:</h2>
-
-            <table style="width:50%"> <%# border:1px solid black%>
-                <tr>
-                    <th>No.</th>
-                    <th>Student Name</th>
-                    <th>Enrollment Status</th>
-                    <th>Select: Waitlisted</th>
-                    <th>Select: Enrolled</th>
-                    <th>Confirm Change</th>
-                </tr>
-            
-            <%@course_enrollment.each_with_index do |enrollment, index|%>
-
-                <tr>
-                    <form method="post" action="/courses/<%=@course.id%>/enrollment">
-                        <td><%=index.to_i+1%></td>
-                        <td><%=User.find_by_id(enrollment.user_id).full_name%> </td>
-                        <td><%=registration_status(enrollment.confirmation)%> </td>
-                        <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_1"></td>
-                        <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_2"></td>
-                        <td><input type="submit" value="Save"></td>
-                    </form>
-                </tr>
-            <%end%></table>
-
+            <span style='font-size: 5rem'><%= @course.icon%></span>
+            <h2><%= @course.name%> </h2>
+            <h4><span class="mui--divider-right">Description &nbsp;</span> <%= @course.description%></h4>
+            <h4><span class="mui--divider-right">Difficulty Level &nbsp;</span> <%=course_difficulty(@course.level) %></h4>
         </div>
 
-    
-    <%# IF @user = instructor but DOES NOT own class, display message %>
-    <% elsif current_user.instructor %>
-        <h3>You are not authorized to edit this course</h3>
-    
-    <%# IF @user = student, show Enrollment status %>
-    <% elsif !current_user.instructor %> 
+        <div class="mui-col-md-12">   
+            <%# IF @user = instructor && owns course , show EDIT form %>
+            <%# Show registered students & status radio buttons%>
+            <% if current_user.instructor && current_user.id === @course.instructor.id%>
+                <p><a href="/courses/<%=@course.id%>/edit"><p>Click here to edit course details </a></p>
 
-    <% if @existing_registration %>
-        <h3>You have already registered!</h3>
-        <h3>Your enrollment status: <%=registration_status(@existing_registration.confirmation) %></h3>
+                <hr>
+                <div>
+                <h2>Students Enrollment Status:</h2>
 
-        <p><a href="/enrolled"><p>Click here for my enrolled courses </a></p>
-    <%else%>
+                    <table style="width:50%"> <%# border:1px solid black%>
+                        <tr>
+                            <th>No.</th>
+                            <th>Student Name</th>
+                            <th>Enrollment Status</th>
+                            <th>Select: Waitlisted</th>
+                            <th>Select: Enrolled</th>
+                            <th>Confirm Change</th>
+                        </tr>
+                    
+                    <%@course_enrollment.each_with_index do |enrollment, index|%>
 
-        <h3>Request to Enroll in course</h3>
-        
-        <form method="post" action="/courses/<%=@course.id%>/registration">
+                        <tr>
+                            <form method="post" action="/courses/<%=@course.id%>/enrollment">
+                                <td><%=index.to_i+1%></td>
+                                <td><%=User.find_by_id(enrollment.user_id).full_name%> </td>
+                                <td><%=registration_status(enrollment.confirmation)%> </td>
+                                <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_1"></td>
+                                <td><input type="radio" name="confirmation" value="<%=enrollment.id%>_2"></td>
+                                <td><input type="submit" value="Save"></td>
+                            </form>
+                        </tr>
+                    <%end%></table>
 
-            <p>Enrollment notes to instructor:</p>
-            <p><textarea name="notes" id="notes" rows="4" cols="50"></textarea></p>
+            </div>
+
             
-            <p><input type="submit" value="Request to Enroll"></p>
-        </form>
-    <%end%>
+            <%# IF @user = instructor but DOES NOT own class, display message %>
+            <% elsif current_user.instructor %>
+            <div class="mui-row"><div class="mui-col-md-12">   
+                <h3>You are not authorized to edit this course</h3>
+            </div>
+            <%# IF @user = student, show Enrollment status %>
+            <% elsif !current_user.instructor %> 
 
-    <% end %>
+            <div class="mui-row">
+                <div class="mui-col-md-12 mui--divider-top">   
+                    <% if @existing_registration %>
+                        <br><h3>Enrollment Status: <%=registration_status(@existing_registration.confirmation) %></h3>
 
+                        <h3><a href="/enrolled"><p>Click here for my enrolled courses </a></h3>
+                    <%else%>
+
+                    <h3>Request to enroll in course</h3>
+                    
+                    <form method="post" action="/courses/<%=@course.id%>/registration">
+
+                        <div class="mui-textfield">
+                        <br><label>Request note to instructor:</label>
+                        <textarea name="notes" id="notes"></textarea>
+                        </div>
+                        
+                        <p><button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Request</button>
+                    </form>
+                    <%end%>
+                <% end %>
+            </div>
+        </div>
+    </div>
 </div>
