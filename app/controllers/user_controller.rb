@@ -62,15 +62,22 @@ class UserController < ApplicationController
     
     # Student can view courses enrolled & registration status
     get '/enrolled' do
-        @enrollments = UserCourse.where(user_id: current_user.id)
-
-        erb :"/courses/my_enrollment"
+        if !current_user.instructor
+            @enrollments = UserCourse.where(user_id: current_user.id)
+            erb :"/courses/my_enrollment"
+        else
+            redirect to :"/courses"
+        end
     end
 
     # Student can update courses enrolled
     get '/update_enrollment' do
-        @enrollments = UserCourse.where(user_id: current_user.id)
-        erb :"/courses/edit_my_enrollment"
+        if !current_user.instructor
+            @enrollments = UserCourse.where(user_id: current_user.id)
+            erb :"/courses/edit_my_enrollment"
+        else
+        redirect to :"/courses"
+        end
     end
 
     # Update enrollment request note from form input
@@ -95,11 +102,15 @@ class UserController < ApplicationController
 
     # Instructors can view courses they are teaching
     get '/teaching' do
-        @courses = Course.all.map {|course|
-            course.id if course.instructor_id === current_user.id}
-        @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
+        if current_user.instructor
+            @courses = Course.all.map {|course|
+                course.id if course.instructor_id === current_user.id}
+            @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
         
-        erb :"/courses/my_courses"
+            erb :"/courses/my_courses"
+        else
+            redirect to "/courses"
+        end
     end
 
     # READ a single user information
