@@ -1,35 +1,44 @@
-<h1>List of my enrolled courses</h1>
-<div>
+
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>My enrollment list</h1>
+
     <ol><% @enrollments.each do |enrollment|%>
         <li>
-            <p>Course name: <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a> 
-                <%= find_course(enrollment.course_id).icon%></p>
-            <p>Enrollment status: <%=registration_status(enrollment.confirmation)%> </p>
+            <h2><span class="mui--divider-right">Course name &nbsp;</span>
+                <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a> 
+                <%= find_course(enrollment.course_id).icon%></h2>
+
+            <h4><span class="mui--divider-right">Enrollment status &nbsp;</span>
+                    <%=registration_status(enrollment.confirmation)%> </h4>
 
             <%# IF confirmation == pending, student can update note%>
             <% if enrollment.confirmation == 0 %>
                 <form method="post" action="/update_enrollment">
                 <input id="hidden" type="hidden" name="_method" value="patch">
 
-                    <h3>Enrollment request</h3>
-                    <textarea name="enrollment" id="notes" rows="4" cols="50"><%=enrollment.notes%></textarea>
-                    <p><input type="submit" value="Update request" name="id[<%=enrollment.id%>]"></p>
+                    <div class="mui-textfield">
+                        <br><label>Request note:</label>
+                        <textarea name="enrollment" id="notes"><%=enrollment.notes%></textarea>
+                    </div>
+                    <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised" name="id[<%=enrollment.id%>]">Update Request</button></p>
                 </form>
 
                 <form method="post" action="/delete_enrollment">
                 <input id="hidden" type="hidden" name="_method" value="delete">
 
-                    <p><input type="submit" value="Cancel Request" name="id[<%=enrollment.id%>]"></p>
+                    <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger" name="id[<%=enrollment.id%>]">Cancel Request</button></p>
                 </form>
                 
                 <% else %>
                 <form method="post" action="/delete_enrollment">
                 <input id="hidden" type="hidden" name="_method" value="delete">
 
-                    <p><input type="submit" value="Cancel Request" name="id[<%=enrollment.id%>]"></p>
+                    <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger" name="id[<%=enrollment.id%>]">Cancel Request</button></p>
                 </form>
 
             <%end%>
         </li>
     <%end%></ol>
+    </div>
 </div>

@@ -1,12 +1,20 @@
-<h1>List of my enrolled courses</h1>
-<div>
-    <ol><% @enrollments.each do |enrollment|%>
-        <li>
-            <p>Course name: <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a> 
-                <%= find_course(enrollment.course_id).icon%></p>
-            <p>Enrollment status: <%=registration_status(enrollment.confirmation)%> </p>
-        </li>
-    <%end%></ol>
-</div>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>My enrollment list</h1>
 
-<h3><a href="/update_enrollment">Update my enrollments</a></h3>
+        <ol><% @enrollments.each do |enrollment|%>
+            <li>
+                <h2><span class="mui--divider-right">Course name &nbsp;</span>
+                    <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a>
+                    <%= find_course(enrollment.course_id).icon%></h2>
+
+                <h4><span class="mui--divider-right">Enrollment status &nbsp;</span>
+                    <%=registration_status(enrollment.confirmation)%> </h4>
+            </li>
+        <%end%></ol>
+    </div>
+
+    <div class="mui-col-md-12">
+        <h3><a href="/update_enrollment">Update my enrollment</a></h3>
+    </div>
+</div>
