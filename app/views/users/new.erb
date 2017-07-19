@@ -1,25 +1,35 @@
-<h1>Sign up Page</h1>
 
-<form method="post" action="/signup"> 
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Sign up</h1>
 
-    <h3>Full Name:</h3>
-    <p><input type="text" name="full_name" id="fullname"/></p>
-    
-    <h3>Username:</h3>
-    <p><input type="text" name="username" id="username"/></p>
+        <form method="post" action="/signup"> 
 
-    <h3>Email:</h3>
-    <p><input type="email" name="email" id="email" /></p>
+            <div class="mui-textfield">
+                <input type="text" placeholder="Full Name" name="full_name" id="fullname"/>
+            </div>
 
-    <h3>Password:</h3>
-    <p><input type="password" name="password" id="password"/></p>
+            <div class="mui-textfield"> 
+            <input type="text" placeholder="Username" name="username" id="username"/>
+            </div>
 
-    <h3>Are you an instructor?</h3>
-    <p>
-        <input type="radio" name="instructor" value="yes">Yes 
-        <input type="radio" name="instructor" value="no" checked/>No
-    </p>
+            <div class="mui-textfield"> 
+            <input type="email" placeholder="Email" name="email" id="email" />
+            </div>
 
-    <input type="submit" value="Create User">
+            <div class="mui-textfield">
+            <input type="password" placeholder="Password" name="password" id="password"/>
+            </div>
 
-</form>
+            <h3>Are you an instructor?</h3>
+            <div class="mui-radio">
+                <label><input type="radio" name="instructor" value="yes">Yes</label>
+            </div>
+            <div class="mui-radio">
+                <label><input type="radio" name="instructor" value="no" checked/>No</label>
+            </div>
+
+            <button type="submit" class="mui-btn mui-btn--primary">Create User</button>
+        </form>
+    </div>
+</div>
