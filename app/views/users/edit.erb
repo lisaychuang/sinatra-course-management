@@ -1,42 +1,47 @@
-<h1>My account information:</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>My account information</h1>
+            <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=current_user.full_name%></h3>
 
-<div>
-    <h3>Full Name: </h3>
-    <p><%=current_user.full_name%></p>
+            <h3><span class="mui--divider-right">Email &nbsp;</span> <%=current_user.email%></h3>
 
-    <h3>Email: </h3>
-    <p><%=current_user.email%></p>
+            <h3>Biography: </h3>
+            <h4><%=current_user.biography%></h4>
+    </div>
 
-    <h3>Biography: </h3>
-    <p><%=current_user.biography%></p>
+    <div class="mui-col-md-12 mui--divider-top">
+        <form class="mui-form" method="post" action="/users/<%=current_user.id%>">
+        <input id="hidden" type="hidden" name="_method" value="patch">
+            
+        <h1>Update account information </h1>
+                <div class="mui-textfield">
+                    <label>Email:</label>
+                    <input type="text" name="email" id="email" value="<%=current_user.email%>" >
+                </div>
 
-</div>
+                <div class="mui-textfield">
+                    <label>Biography:</label><br>
+                    <textarea name="biography" id="biography"><%=current_user.biography%></textarea>
+                </div>
 
-<hr>
-<div>
-<form method="post" action="/users/<%=current_user.id%>">
-<input id="hidden" type="hidden" name="_method" value="patch">
-    
-    <h2>Update account information </h2>
-    <h3>New email:</h3>
-    <p><input type="text" name="email" id="email" ></p>
+                <div class="mui-textfield">
+                    <legend>Current password:</legend>
+                    <p><input type="password" name="old_password" id="old_password"></p>
+                </div>
+            
+                <div class="mui-textfield">
+                    <legend>New password:</legend>
+                    <p><input type="password" name="new_password" id="new_password"></p>
+                </div>
 
+                <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--primary">Update Account</button>
+        </form>
 
-    <h3>New biography: </h3>
-    <textarea name="biography" id="biography" rows="4" cols="50"></textarea>
+        <form method="post" action="/users/<%=current_user.id%>">
+            <input id="hidden" type="hidden" name="_method" value="delete">
 
-    <h3>Current password</h3>
-    <p><input type="password" name="old_password" id="old_password"></p>
+            <button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger">Delete My Account</button>
+        </form>
 
-    <h3>New password</h3>
-    <p><input type="password" name="new_password" id="new_password"></p>
-
-    <p><input type="submit" value="Update Account"></p>
-</form>
-
-<form method="post" action="/users/<%=current_user.id%>">
-    <input id="hidden" type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete My Account">
-</form>
-
+    </div>
 </div>

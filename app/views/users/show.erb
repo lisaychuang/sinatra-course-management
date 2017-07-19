@@ -1,14 +1,15 @@
-<h1>My account information:</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>My account information</h1>
+            <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
 
-<div>
-    <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
+            <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
 
-    <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
+            <h3>Biography: </h3>
+            <h4><%=@user.biography%></h4>
 
-    <h3>Biography: </h3>
-    <h4><%=@user.biography%></h4>
-
-    <% if current_user.id === @user.id%>
-        <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
-    <% end %>
+            <% if current_user.id === @user.id%>
+                <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
+            <% end %>
+    </div>
 </div>

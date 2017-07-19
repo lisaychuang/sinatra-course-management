@@ -119,11 +119,16 @@ class UserController < ApplicationController
 
     # UPDATE user information based on form data
     patch '/users/:id' do
-        if current_user.authenticate(params[:old_password])
-            current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
-            redirect to "/users/#{current_user.id}"
+        if current_user.id === params[:id].to_i
+            if current_user.authenticate(params[:old_password])
+                current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
+                redirect to "/users/#{current_user.id}"
+            else
+                current_user.update(biography: params[:biography], email: params[:email])
+                redirect to "/users/#{current_user.id}"
+            end
         else
-            redirect to "/users/#{current_user.id}/edit"
+            redirect to "/users/#{params[:id]}"
         end
     end
 
