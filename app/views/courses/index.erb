@@ -3,7 +3,7 @@
     <div class="mui-col-md-12">
     <h1>All Courses Available</h1>
 
-        <ol><% @courses.each do |course|%>
+        <ul><% @courses.each do |course|%>
             <li>
             <h3>Course name: <a href="/courses/<%=course.id%>"><%= course.name%> </a> <%= course.icon%></h3>
             
@@ -17,7 +17,7 @@
                 <%=course_difficulty(course.level) %></p>
             </li>
             
-        <%end%></ol>
+        <%end%></ul>
     </div>
 
     <div class="mui-col-md-12">

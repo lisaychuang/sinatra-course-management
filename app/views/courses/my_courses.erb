@@ -1,7 +1,7 @@
 <div class="mui-row">
     <div class="mui-col-md-12">
         <h1>My course list</h1>
-            <ol><% @my_courses.each do |course|%>
+            <ul><% @my_courses.each do |course|%>
                 <li>
                 <h3><a href="/courses/<%=course.id%>"><%= course.name%></a>
                     <%= course.icon%></h3>
@@ -9,7 +9,7 @@
                 <h4><span class="mui--divider-right">Description &nbsp;</span> <%= course.description%></h4>
                 <h4><span class="mui--divider-right">Difficulty level &nbsp;</span> <%=course_difficulty(course.level)%></h4>
                     </li>
-            <%end%></ol>
+            <%end%></ul>
     </div>
 
     <div class="mui-col-md-12">

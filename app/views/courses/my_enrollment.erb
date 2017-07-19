@@ -2,7 +2,7 @@
     <div class="mui-col-md-12">
         <h1>My enrollment list</h1>
 
-        <ol><% @enrollments.each do |enrollment|%>
+        <ul><% @enrollments.each do |enrollment|%>
             <li>
                 <h2><span class="mui--divider-right">Course name &nbsp;</span>
                     <a href="/courses/<%=enrollment.course_id%>"><%= find_course(enrollment.course_id).name%></a>
@@ -11,7 +11,7 @@
                 <h4><span class="mui--divider-right">Enrollment status &nbsp;</span>
                     <%=registration_status(enrollment.confirmation)%> </h4>
             </li>
-        <%end%></ol>
+        <%end%></ul>
     </div>
 
     <div class="mui-col-md-12">
