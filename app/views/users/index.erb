@@ -1,21 +1,23 @@
 
-<div>
-    <h1>All Instructor Profiles</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>All Instructor Profiles</h1>
 
-    <ol><% @instructors.each do |instructor|%>
-        <li>
-            <h3>Instructor name: <a href="/users/<%=instructor.id%>"><%=instructor.full_name%></a></h3>
-        </li>
-    <%end%></ol>
-</div>
+        <ol><% @instructors.each do |instructor|%>
+            <li>
+                <h3>Instructor name: <a href="/users/<%=instructor.id%>"><%=instructor.full_name%></a></h3>
+            </li>
+        <%end%></ol>
+    </div>
 
 <hr>
-<div>
-    <h1>All Student Profiles</h1>
+    <div class="mui-col-md-12 mui--divider-top">
+        <h1>All Student Profiles</h1>
 
-    <ol><% @students.each do |student|%>
-        <li>
-            <h3>Student name: <a href="/users/<%=student.id%>"><%=student.full_name%></a></h3>
-        </li>
-    <%end%></ol>
+        <ol><% @students.each do |student|%>
+            <li>
+                <h3>Student name: <a href="/users/<%=student.id%>"><%=student.full_name%></a></h3>
+            </li>
+        <%end%></ol>
+    </div>
 </div>

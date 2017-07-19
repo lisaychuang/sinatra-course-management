@@ -11,7 +11,21 @@
       @import "bower_components/mui/src/sass/mui/colors";
 
       body {
-        background-color: mui-color('purple', '700');
+        background-color: #eee;
+      }
+      body > .mui-container {
+        background-color: #fff;
+        min-height: 100vh;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.1);
+      }
+      .mui-appbar {
+        background: #01579B;
+      }
+      .mui-appbar .brand {
+        line-height: 56px;
+        font-size: 3rem;
       }
 
     </style>
@@ -19,6 +33,12 @@
 
 
   <body>
+    <div class="mui-appbar">
+      <div class="mui-container">
+        <div class="brand">Course Registration System
+      </div>
+      </div>
+    </div>
     <div class="mui-container">
       <%= yield %>
     </div>
