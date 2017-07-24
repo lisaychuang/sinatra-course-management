@@ -161,8 +161,10 @@ class UserController < ApplicationController
     delete '/users/:id' do
         if current_user.id === params[:id].to_i
             current_user.destroy
-            redirect to "/users"
+            flash[:deleted] = "User deleted"
+            redirect to "/"
         else
+            flash[:error] = "You are not permitted to delete this user!"
             redirect to "/users"
         end
     end

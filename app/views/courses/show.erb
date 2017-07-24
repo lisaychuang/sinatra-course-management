@@ -2,6 +2,8 @@
     <div class="mui-col-md-12">   
         <% if flash.has?(:error) %>
             <h3 class="error"><%= flash[:error] %></h3>
+        <% elsif flash.has?(:message) %>
+            <h3 class="message"><%= flash[:message] %></h3>
         <% end %>
         <h1>Course information</h1>
 

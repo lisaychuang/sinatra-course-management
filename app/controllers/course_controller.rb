@@ -11,7 +11,7 @@ class CourseController < ApplicationController
         end
     end
 
-    # only instructors can view form to create a new course
+    # Instructor can view form to create a new course
     get '/courses/new' do
         if current_user.instructor 
             erb :"/courses/new"
@@ -26,6 +26,7 @@ class CourseController < ApplicationController
         @new_course = Course.create(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1, instructor_id: session[:user_id])
 
         if @new_course.save 
+            flash[:message] = "Course created"
             redirect to "/teaching"
         else
             flash[:error] = "Please ensure you have filled in all required fields correctly!"
@@ -33,17 +34,16 @@ class CourseController < ApplicationController
         end
     end
 
-    # View a single course page
+    # All users can view a single course page
     get '/courses/:id' do
         @course = find_course(params[:id])
         @course_enrollment = UserCourse.where(course_id: params[:id])
         @existing_registration = nil
-        
-        if logged_in?
-
-            if !current_user.instructor
+        if !current_user.instructor
                 @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
             end
+
+        if logged_in?
             erb :"/courses/show"
         else
             flash[:error] = "You are not currently logged in!"
@@ -58,6 +58,7 @@ class CourseController < ApplicationController
             @student_enrollment = UserCourse.find_by_id(params[:confirmation][0].to_i)
             @student_enrollment.update(confirmation: params[:confirmation][2].to_i)
 
+            flash[:message] = "Student registrations updated!"
             redirect to "/courses/#{@course.id}"
         else
             redirect to "/courses/#{@course.id}"
@@ -75,7 +76,7 @@ class CourseController < ApplicationController
         end
     end
 
-    # UPDATE course based on form input
+    # Instructor can UPDATE course based on form input
     patch '/courses/:id' do
         @course = find_course(params[:id])
         @course.update(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1)
@@ -105,13 +106,19 @@ class CourseController < ApplicationController
         end
     end
 
-    # UPDATE Student course registration
+    # Student can UPDATE course registration
     post '/courses/:id/registration' do
         @course = find_course(params[:id])
         @new_enrollment = UserCourse.create(notes: params[:notes], user_id: current_user.id, course_id: params[:id])
-        @new_enrollment.save
-
-        redirect to "/courses/#{@course.id}"
+        
+        if @new_enrollment.save
+            flash[:message] = "Successfully registered for this course."
+            redirect to "/courses/#{@course.id}"
+        else 
+            flash[:error] = "Something went wrong. 
+                Please try to register for this course again, remember to include a Request Note to your instructor!"
+                redirect to "/courses/#{@course.id}"
+        end
     end
 
 end
