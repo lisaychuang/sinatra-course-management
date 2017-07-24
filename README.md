@@ -10,8 +10,17 @@ The course management app provides a database and web interface for users to:
     * A student can create, read, update, and delete (CRUD) a course registration
 * User inputs are validated for account/course/registration creation
 
+## Usage
+
+After checking out the repo, run ```bundle install``` to install Ruby gem dependencies.
+
+You can start one of Rack's supported servers using the [shotgun](https://github.com/rtomayko/shotgun) command ```shotgun```
+
+Shotgun can be used as an alternative to the complex reloading logic provided by web frameworks or in environments that don't support application reloading.
+
+
 ## Model Classes
-There are three model classes: ```User, Course, UserCourse```
+The Course Management app database includes three model classes: ```User, Course, UserCourse```
 
 1. User: stores user attributes, including:
     * Full Name
@@ -34,3 +43,12 @@ There are three model classes: ```User, Course, UserCourse```
     * User_id, to associate registration with a student
     * Course_id, to associate registration with a course
 
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at [Course Management Repo](https://github.com/lisaychuang/sinatra-course-management). 
+
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://github.com/dannyd4315/worlds-best-restaurants-cli-gem/blob/master/contributor-covenant.org) code of conduct.
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
