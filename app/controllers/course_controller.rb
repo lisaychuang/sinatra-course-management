@@ -6,10 +6,9 @@ class CourseController < ApplicationController
             @courses = Course.all
             erb :"/courses/index"
         else
-            flash[:status] = "You are not currently logged in!"
+            flash[:error] = "You are not currently logged in!"
             redirect to :"/login"
         end
-        
     end
 
     # only instructors can view form to create a new course
@@ -17,6 +16,7 @@ class CourseController < ApplicationController
         if current_user.instructor 
             erb :"/courses/new"
         else
+            flash[:error] = "You are not an instructor!"
             redirect to "/courses"
         end
     end
@@ -37,15 +37,16 @@ class CourseController < ApplicationController
     get '/courses/:id' do
         @course = find_course(params[:id])
         @course_enrollment = UserCourse.where(course_id: params[:id])
-
         @existing_registration = nil
-        if !current_user.instructor
-            @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
-        end
         
         if logged_in?
+
+            if !current_user.instructor
+                @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
+            end
             erb :"/courses/show"
         else
+            flash[:error] = "You are not currently logged in!"
             redirect to "/login"
         end
     end
@@ -69,6 +70,7 @@ class CourseController < ApplicationController
         if current_user.instructor && current_user.id === @course.instructor.id
             erb :"/courses/edit_course"
         else
+            flash[:error] = "You are not an instructor!"
             redirect to "/courses/#{@course.id}"
         end
     end
@@ -96,6 +98,7 @@ class CourseController < ApplicationController
         @course = find_course(params[:id])
         if current_user.id === @course.instructor.id
             @course.destroy
+            flash[:deleted] = "Course deleted"
             redirect to "/teaching"
         else
             redirect to "/courses"

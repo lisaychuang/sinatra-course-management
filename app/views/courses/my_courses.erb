@@ -14,5 +14,11 @@
 
     <div class="mui-col-md-12">
         <h3><a href="/courses/new">Create a new course</a></h3>
+
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% elsif flash.has?(:deleted) %>
+            <h3 class="deleted"><%= flash[:deleted] %></h3>
+        <% end %>
     </div>
 </div>

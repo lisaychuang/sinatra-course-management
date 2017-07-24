@@ -60,7 +60,12 @@ class UserController < ApplicationController
         @instructors = User.where(instructor: true)
         @students = User.where(instructor: false)
         
-        erb :"/users/index"
+        if logged_in?
+            erb :"/users/index"
+        else
+            flash[:status] = "You are not currently logged in!"
+            redirect to :"/login"
+        end
     end
     
     # Student can view courses enrolled & registration status
