@@ -2,8 +2,14 @@ class CourseController < ApplicationController
     
     # View all courses
     get '/courses' do
-        @courses = Course.all
-        erb :"/courses/index"
+        if logged_in?
+            @courses = Course.all
+            erb :"/courses/index"
+        else
+            flash[:status] = "You are not currently logged in!"
+            redirect to :"/login"
+        end
+        
     end
 
     # only instructors can view form to create a new course

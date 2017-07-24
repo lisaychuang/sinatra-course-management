@@ -1,6 +1,10 @@
 
 <div class="mui-row">
     <div class="mui-col-md-12">
+    <% if flash.has?(:error) %>
+        <h3 class="error"><%= flash[:error] %></h3>
+    <% end %>
+    
     <h1>All Courses Available</h1>
 
         <ul><% @courses.each do |course|%>
@@ -28,5 +32,4 @@
             <h3><a href="/teaching"><p>Click here for my courses </a></h3>
         <% end %>
     </div>
-
 </div>

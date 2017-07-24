@@ -48,6 +48,7 @@ class UserController < ApplicationController
     get '/logout' do
         if logged_in?
             session.clear
+            flash[:message] = "You have logged out successfully!"
             redirect to "/login"
         else
             redirect to "/"
@@ -74,11 +75,17 @@ class UserController < ApplicationController
 
     # Student can update courses enrolled
     get '/update_enrollment' do
-        if !current_user.instructor
-            @enrollments = UserCourse.where(user_id: current_user.id)
-            erb :"/courses/edit_my_enrollment"
+        if logged_in?
+            if !current_user.instructor
+                @enrollments = UserCourse.where(user_id: current_user.id)
+                erb :"/courses/edit_my_enrollment"
+            else
+                flash[:error] = "You are not a student!"
+            redirect to :"/courses"
+            end
         else
-        redirect to :"/courses"
+            flash[:status] = "You are not currently logged in!"
+            redirect to :"/login"
         end
     end
 
