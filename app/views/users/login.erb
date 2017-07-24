@@ -6,16 +6,20 @@
         <form method="post" action="/login" class="mui-form"> 
 
                 <div class="mui-textfield">
-                    <input type="text" placeholder="Username" name="username" id="username"/>
+                    <input type="text" placeholder="Username" name="username" id="username" required/>
                 </div>
                 
                 <div class="mui-textfield">
-                    <input type="password" placeholder="Password" name="password" id="password"/>
+                    <input type="password" placeholder="Password" name="password" id="password" required/>
                 </div>
    
             <div>
             <button type="submit" class="mui-btn mui-btn--primary">Submit </button>
             </div>
         </form>
+
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% end %>
     </div>
 </div>

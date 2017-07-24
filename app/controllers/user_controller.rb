@@ -17,6 +17,7 @@ class UserController < ApplicationController
             session[:user_id] = @user.id
             redirect to "/courses"
         else
+            flash[:error] = "Please ensure you have filled in all required fields correctly!"
             redirect to "/signup"
         end
     end
@@ -38,6 +39,7 @@ class UserController < ApplicationController
             session[:user_id] = @user.id
             redirect to "/courses"
         else
+            flash[:error] = "Sorry, we were not able to find a user with that username and password."
             redirect to "/login"
         end
     end

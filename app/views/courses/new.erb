@@ -5,7 +5,7 @@
         <form method="post" action="/courses" class="mui-form">
             <legend>Course name</legend>
             <div class="mui-textfield">
-                <input type="text" name="name" id="name" />
+                <input type="text" name="name" id="name" required/>
             </div>
 
             <legend>Course icon</legend>
@@ -15,7 +15,7 @@
 
             <legend>Description</legend>
             <div class="mui-textfield">
-                <textarea name="description" id="description"></textarea>
+                <textarea name="description" id="description" required></textarea>
             </div>
 
             <legend>Difficulty level</legend>
@@ -23,5 +23,9 @@
             
             <br><button type="submit" class="mui-btn mui-btn--primary">Create Course</button>
         </form>
+
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% end %>
     </div>
 </div>

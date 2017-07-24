@@ -10,26 +10,30 @@
             </div>
 
             <div class="mui-textfield"> 
-            <input type="text" placeholder="Username" name="username" id="username"/>
+            <input type="text" placeholder="Username" name="username" id="username" required/>
             </div>
 
             <div class="mui-textfield"> 
-            <input type="email" placeholder="Email" name="email" id="email" />
+            <input type="email" placeholder="Email" name="email" id="email" required/>
             </div>
 
             <div class="mui-textfield">
-            <input type="password" placeholder="Password" name="password" id="password"/>
+            <input type="password" placeholder="Password" name="password" id="password" required/>
             </div>
 
             <h3>Are you an instructor?</h3>
             <div class="mui-radio">
-                <label><input type="radio" name="instructor" value="yes">Yes</label>
+                <label><input type="radio" name="instructor" value="yes" />Yes</label>
             </div>
             <div class="mui-radio">
-                <label><input type="radio" name="instructor" value="no" checked/>No</label>
+                <label><input type="radio" name="instructor" value="no" checked />No</label>
             </div>
 
             <button type="submit" class="mui-btn mui-btn--primary">Create User</button>
         </form>
+
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% end %>
     </div>
 </div>

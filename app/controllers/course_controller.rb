@@ -18,7 +18,13 @@ class CourseController < ApplicationController
     # Instructor CREATE a new course
     post '/courses' do
         @new_course = Course.create(name: params[:name], icon: params[:icon], description: params[:description], level: params[:level].to_i-1, instructor_id: session[:user_id])
-        redirect to "/teaching"
+
+        if @new_course.save 
+            redirect to "/teaching"
+        else
+            flash[:error] = "Please ensure you have filled in all required fields correctly!"
+            redirect to "/courses/new"
+        end
     end
 
     # View a single course page
