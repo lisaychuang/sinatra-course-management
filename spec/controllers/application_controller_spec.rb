@@ -501,6 +501,35 @@ describe ApplicationController do
           expect(page.current_path).to include("/login")
         end
       end
+
+      context 'Edit individual user page' do
+        it 'let a logged in user edit user account information if it is their account' do
+          user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/users/#{user.id}/edit"
+          expect(page.body).to include("Update account information")
+        end
+
+        it 'does not let a logged in user edit user account information if it is not their account' do
+          user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true) 
+          
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/users/#{user2.id}"
+          expect(page.body).to include("User information")
+        end
+      end
     end
 end
 
