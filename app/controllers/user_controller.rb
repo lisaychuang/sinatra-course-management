@@ -74,11 +74,16 @@ class UserController < ApplicationController
     
     # Student can view courses enrolled & registration status
     get '/enrolled' do
-        if !current_user.instructor
+
+        if logged_in?
             @enrollments = UserCourse.where(user_id: current_user.id)
-            erb :"/courses/my_enrollment"
+            if !current_user.instructor 
+                erb :"/courses/my_enrollment"
+            else
+                redirect to :"/courses"
+            end
         else
-            redirect to :"/courses"
+            redirect to :"/login"
         end
     end
 
