@@ -125,14 +125,18 @@ class UserController < ApplicationController
 
     # Instructors can view courses they are teaching
     get '/teaching' do
-        if current_user.instructor
-            @courses = Course.all.map {|course|
-                course.id if course.instructor_id === current_user.id}
-            @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
-        
-            erb :"/courses/my_courses"
+        if logged_in?
+            if current_user.instructor
+                @courses = Course.all.map {|course|
+                    course.id if course.instructor_id === current_user.id}
+                @my_courses = @courses.compact.map{|c| Course.find_by_id(c)}
+            
+                erb :"/courses/my_courses"
+            else
+                redirect to "/courses"
+            end
         else
-            redirect to "/courses"
+            redirect to :"/login"
         end
     end
 

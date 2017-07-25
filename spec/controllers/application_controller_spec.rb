@@ -373,7 +373,7 @@ describe ApplicationController do
       end
     end
 
-    context 'Student enrollment page' do
+    context "Student's enrollment page" do
       it "let a logged in student view her course enrollment status" do
       user = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => false)
         
@@ -406,8 +406,44 @@ describe ApplicationController do
         visit "/enrolled"
         expect(page.current_path).to include("/login")
       end
-
     end
+
+    context "Instructor's course page" do
+      it "let a logged in instructor view her courses" do
+        user = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+          
+        visit '/login'
+
+        fill_in(:username, :with => "adri123")
+        fill_in(:password, :with => "stellenbosch")
+        click_button 'Submit'
+        
+        visit "/teaching"
+
+        expect(page.body).to include("My course list")
+      end
+
+      it "does not let a logged in student view Instructor's course page" do
+        user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+        
+        visit "/teaching"
+
+        expect(page.current_path).to include("/courses")
+      end
+
+      it "does not let a user view course enrollment page if not logged in" do 
+        visit "/teaching"
+        expect(page.current_path).to include("/login")
+      end
+    end
+
   end
 end
 
