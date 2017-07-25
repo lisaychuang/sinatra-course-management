@@ -11,7 +11,11 @@ class UserController < ApplicationController
     # CREATE a new user based on form information
     post '/signup' do
         @user = User.create(full_name: params[:full_name], username: params[:username], email: params[:email], password: params[:password])
-        @user.instructor = true if params[:instructor] == "yes"
+        if params[:instructor] == "yes"
+            @user.instructor = true
+        else 
+            @user.instructor = false
+        end
 
         if @user.save
             session[:user_id] = @user.id

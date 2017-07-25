@@ -13,11 +13,15 @@ class CourseController < ApplicationController
 
     # Instructor can view form to create a new course
     get '/courses/new' do
-        if current_user.instructor 
-            erb :"/courses/new"
+        if logged_in?
+            if current_user.instructor 
+                erb :"/courses/new"
+            else
+                flash[:error] = "You are not an instructor!"
+                redirect to "/courses"
+            end
         else
-            flash[:error] = "You are not an instructor!"
-            redirect to "/courses"
+            redirect to :"/login"
         end
     end
 
