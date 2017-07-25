@@ -259,7 +259,7 @@ describe ApplicationController do
         end
       end
 
-    context 'Show pages' do
+    context 'Individual Course page' do
       it "let a logged in user view individual course page" do
         user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
         user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
@@ -326,7 +326,7 @@ describe ApplicationController do
       end
     end
 
-    context 'User show page' do
+    context 'Individual User page' do
       it "let a logged in user view an individual user's info" do
         user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
         user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
@@ -342,7 +342,7 @@ describe ApplicationController do
         expect(page.body).to include("User information")
       end
 
-      it "let a logged in user update their own information" do
+      it "let a logged in user see a link to update their own information" do
         user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
         visit '/login'
 
