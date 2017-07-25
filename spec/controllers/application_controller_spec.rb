@@ -443,8 +443,65 @@ describe ApplicationController do
         expect(page.current_path).to include("/login")
       end
     end
-
   end
+
+  describe 'UPDATE action' do
+      context 'Edit individual course page' do
+        it 'let a logged in instructor edit a course if they own it' do
+          user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/courses/#{course.id}/edit"
+          expect(page.body).to include("Edit course information")
+        end
+
+        it "does not let a logged in instructor edit another instructor's course" do
+          user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          course1 = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+        
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
+          course2 = Course.create(name: "Web Animation From the Experts", description: "You’ll learn everything you need to know to design and code expert level web animation through hands-on exercises and curated examples.", icon: "❤️", level: 1, instructor_id: 2)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/courses/#{course2.id}/edit"
+          expect(page.current_path).to include("/courses/#{course2.id}")
+        end
+
+        it 'does not let a logged in student edit a course' do
+          user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true) 
+          course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/courses/#{course.id}/edit"
+          expect(page.current_path).to include("/courses/#{course.id}")
+        end
+
+        it 'does not let a user view Edit course page if not logged in' do
+          course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+
+          visit "/courses/#{course.id}/edit"
+
+          expect(page.current_path).to include("/login")
+        end
+      end
+    end
 end
 
 # it "shows edit course form if user is an instructor and owns course" do

@@ -153,10 +153,14 @@ class UserController < ApplicationController
 
     # User can only EDIT their account information 
     get '/users/:id/edit' do 
-        if current_user.id === params[:id].to_i
-            erb :"/users/edit"
+        if logged_in?
+            if current_user.id === params[:id].to_i
+                erb :"/users/edit"
+            else
+                redirect to "/users/#{params[:id]}"
+            end
         else
-            redirect to "/users/#{params[:id]}"
+            redirect to :'/login'
         end
     end
 
