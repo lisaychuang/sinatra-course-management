@@ -168,6 +168,17 @@ describe ApplicationController do
     end
   end
 
+  describe 'User show page' do
+    it "shows a single user's details" do
+      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
+      
+      get "/users/#{user.id}"
+
+      expect(last_response.body).to include("My account information")
+      expect(page.body).to include("#{user.biography}")
+    end
+  end
+
   describe 'index action' do
     context 'logged in' do
       it 'lets a user view the course index if logged in' do
