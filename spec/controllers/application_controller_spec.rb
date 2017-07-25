@@ -590,52 +590,69 @@ describe ApplicationController do
         end
       end
     end
+
+  describe 'DELETE action' do
+    context "Delete user account" do
+      it 'lets a logged in user delete her own account' do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+        # user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
+      
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+        
+        visit "/users/#{user.id}/edit"
+        click_button "Delete My Account"
+        expect(User.find_by(:id => user.id)).to eq(nil)
+      end
+
+      it "does not let a logged in user delete another user's account" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+        user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
+      
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+        
+        visit "/users/#{user2.id}/edit"
+        expect(page.current_path).to include("/users/#{user2.id}")
+      end
+    end
+
+    context "Delete a course" do
+      it 'lets a logged in user delete a course if she is an instructor and owns the course' do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+          
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+        
+        visit "/courses/#{course.id}/edit"
+        click_button "Delete Course"
+        expect(Course.find_by(:id => course.id)).to eq(nil)
+      end
+
+      it "does not let a logged in user delete another user's course" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor =>true)
+        user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+        
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+        
+        visit "/courses/#{course.id}/edit"
+        expect(page.current_path).to include("/courses/#{course.id}")
+      end
+    end
+  end
 end
-
-
-
-  # describe 'delete action' do
-  #   context "logged in" do
-  #     it 'lets a user delete their own tweet if they are logged in' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit 'tweets/1'
-  #       click_button "Delete Tweet"
-  #       expect(page.status_code).to eq(200)
-  #       expect(Tweet.find_by(:content => "tweeting!")).to eq(nil)
-  #     end
-
-  #     it 'does not let a user delete a tweet they did not create' do
-  #       user1 = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet1 = Tweet.create(:content => "tweeting!", :user_id => user1.id)
-
-  #       user2 = User.create(:username => "silverstallion", :email => "silver@aol.com", :password => "horses")
-  #       tweet2 = Tweet.create(:content => "look at this tweet", :user_id => user2.id)
-
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit "tweets/#{tweet2.id}"
-  #       click_button "Delete Tweet"
-  #       expect(page.status_code).to eq(200)
-  #       expect(Tweet.find_by(:content => "look at this tweet")).to be_instance_of(Tweet)
-  #       expect(page.current_path).to include('/tweets')
-  #     end
-  #   end
-
-  #   context "logged out" do
-  #     it 'does not load let user delete a tweet if not logged in' do
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/tweets/1'
-  #       expect(page.current_path).to eq("/login")
-  #     end
-  #   end
-  # end
-# end
