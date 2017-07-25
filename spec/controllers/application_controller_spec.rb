@@ -529,6 +529,33 @@ describe ApplicationController do
           visit "/users/#{user2.id}"
           expect(page.body).to include("User information")
         end
+
+        it 'does not let a user view Edit user page if not logged in' do
+          user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          
+          visit "/users/#{user.id}/edit"
+
+          expect(page.current_path).to include("/login")
+        end
+      end
+
+      context "Edit student's enrollment page " do
+        it 'let a logged in user edit course enrollment if it is their courses' do
+          user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+          course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+          new_enrollment = UserCourse.create(notes: "Please add me!", user_id: user.id, course_id: course.id)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          post '/courses/:id/registration'
+
+          visit "/update_enrollment"
+          expect(page.body).to include("My enrollment list")
+        end
       end
     end
 end
