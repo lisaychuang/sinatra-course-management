@@ -540,7 +540,7 @@ describe ApplicationController do
       end
 
       context "Edit student's enrollment page " do
-        it 'let a logged in user edit course enrollment if it is their courses' do
+        it 'let a logged in user edit course enrollment if it is her courses' do
           user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
           course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
           new_enrollment = UserCourse.create(notes: "Please add me!", user_id: user.id, course_id: course.id)
@@ -556,135 +556,43 @@ describe ApplicationController do
           visit "/update_enrollment"
           expect(page.body).to include("My enrollment list")
         end
+
+        it 'does not let a logged in user edit course enrollment if she is not a student' do
+          user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => true) 
+          
+          course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+          new_enrollment = UserCourse.create(notes: "Please add me!", user_id: user.id, course_id: course.id)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          post '/courses/:id/registration'
+          visit '/logout'
+
+          visit '/login'
+
+          fill_in(:username, :with => "adri123")
+          fill_in(:password, :with => "stellenbosch")
+          click_button 'Submit'
+
+          visit "/update_enrollment"
+          expect(page.current_path).to include("/courses")
+        end
+
+        it 'does not let a user view Edit student enrollment page if not logged in' do
+          visit "/update_enrollment"
+
+          expect(page.current_path).to include("/login")
+        end
       end
     end
 end
 
-# it "shows edit course form if user is an instructor and owns course" do
-      #   user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-      #   course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
-        
-      #   get "/courses/#{course.id}"
 
-      #   expect(last_response.body).to include("Students Enrollment Status")
-      # end
-
-      # it "does not show edit course form if user is an instructor but does not own course" do
-      #   user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-      #   course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
-        
-      #   get "/courses/#{course.id}"
-
-      #   expect(last_response.body).to include("You are not authorized to edit this course")
-      # end
-
-  # describe 'show action' do
-  #   context 'logged in' do
-  #     it 'displays a single tweet' do
-
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "i am a boss at tweeting", :user_id => user.id)
-
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-
-  #       visit "/tweets/#{tweet.id}"
-  #       expect(page.status_code).to eq(200)
-  #       expect(page.body).to include("Delete Tweet")
-  #       expect(page.body).to include(tweet.content)
-  #       expect(page.body).to include("Edit Tweet")
-  #     end
-  #   end
-
-  #   context 'logged out' do
-  #     it 'does not let a user view a tweet' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "i am a boss at tweeting", :user_id => user.id)
-  #       get "/tweets/#{tweet.id}"
-  #       expect(last_response.location).to include("/login")
-  #     end
-  #   end
-  # end
-
-  # describe 'edit action' do
-  #   context "logged in" do
-  #     it 'lets a user view tweet edit form if they are logged in' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => user.id)
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit '/tweets/1/edit'
-  #       expect(page.status_code).to eq(200)
-  #       expect(page.body).to include(tweet.content)
-  #     end
-
-  #     it 'does not let a user edit a tweet they did not create' do
-  #       user1 = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet1 = Tweet.create(:content => "tweeting!", :user_id => user1.id)
-
-  #       user2 = User.create(:username => "silverstallion", :email => "silver@aol.com", :password => "horses")
-  #       tweet2 = Tweet.create(:content => "look at this tweet", :user_id => user2.id)
-
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       session = {}
-  #       session[:user_id] = user1.id
-  #       visit "/tweets/#{tweet2.id}/edit"
-  #       expect(page.current_path).to include('/tweets')
-  #     end
-
-  #     it 'lets a user edit their own tweet if they are logged in' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit '/tweets/1/edit'
-
-  #       fill_in(:content, :with => "i love tweeting")
-
-  #       click_button 'submit'
-  #       expect(Tweet.find_by(:content => "i love tweeting")).to be_instance_of(Tweet)
-  #       expect(Tweet.find_by(:content => "tweeting!")).to eq(nil)
-  #       expect(page.status_code).to eq(200)
-  #     end
-
-  #     it 'does not let a user edit a text with blank content' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/login'
-
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit '/tweets/1/edit'
-
-  #       fill_in(:content, :with => "")
-
-  #       click_button 'submit'
-  #       expect(Tweet.find_by(:content => "i love tweeting")).to be(nil)
-  #       expect(page.current_path).to eq("/tweets/1/edit")
-  #     end
-  #   end
-
-  #   context "logged out" do
-  #     it 'does not load let user view tweet edit form if not logged in' do
-  #       get '/tweets/1/edit'
-  #       expect(last_response.location).to include("/login")
-  #     end
-  #   end
-  # end
 
   # describe 'delete action' do
   #   context "logged in" do
