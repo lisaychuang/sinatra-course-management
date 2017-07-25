@@ -134,7 +134,12 @@ class UserController < ApplicationController
     # READ a single user information
     get '/users/:id' do 
         @user = User.find_by_id(params[:id])
-        erb :"/users/show"
+
+        if logged_in?
+            erb :"/users/show"
+        else
+            redirect to :"/login"
+        end
     end
 
     # User can only EDIT their account information 

@@ -1,5 +1,6 @@
 <div class="mui-row">
-    <div class="mui-col-md-12">
+    <% if current_user == @user %>
+        <div class="mui-col-md-12">
         <h1>My account information</h1>
             <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
 
@@ -8,8 +9,20 @@
             <h3>Biography: </h3>
             <h4><%=@user.biography%></h4>
 
-            <% if current_user.id === @user.id%>
-                <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
-            <% end %>
-    </div>
+            <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
+
+        </div>
+    <% else %>
+
+        <div class="mui-col-md-12">
+        <h1>User information</h1>
+            <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
+
+            <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
+
+            <h3>Biography: </h3>
+            <h4><%=@user.biography%></h4>
+        </div>
+
+    <% end %>
 </div>

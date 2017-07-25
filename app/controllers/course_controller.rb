@@ -43,11 +43,12 @@ class CourseController < ApplicationController
         @course = find_course(params[:id])
         @course_enrollment = UserCourse.where(course_id: params[:id])
         @existing_registration = nil
-        if !current_user.instructor
-                @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
-            end
 
         if logged_in?
+            if !current_user.instructor
+            @existing_registration = UserCourse.where("course_id = ? AND user_id = ?", params[:id], current_user.id).first
+            end
+
             erb :"/courses/show"
         else
             flash[:error] = "You are not currently logged in!"

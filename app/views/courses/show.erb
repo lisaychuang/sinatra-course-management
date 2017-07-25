@@ -1,10 +1,13 @@
 <div class="mui-row">
-    <div class="mui-col-md-12">   
+    <div class="mui-col-md-12">  
+
+        <%#Flash message%>
         <% if flash.has?(:error) %>
             <h3 class="error"><%= flash[:error] %></h3>
         <% elsif flash.has?(:message) %>
             <h3 class="message"><%= flash[:message] %></h3>
         <% end %>
+        
         <h1>Course information</h1>
 
             <span style='font-size: 5rem'><%= @course.icon%></span>
@@ -12,7 +15,6 @@
             <h4><span class="mui--divider-right">Description &nbsp;</span> <%= @course.description%></h4>
             <h4><span class="mui--divider-right">Difficulty Level &nbsp;</span> <%=course_difficulty(@course.level) %></h4>
     </div>
-
          
             <%# IF @user = instructor && owns course , show EDIT form %>
             <%# Show registered students & status radio buttons%>
