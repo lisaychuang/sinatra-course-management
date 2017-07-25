@@ -3,89 +3,10 @@ require 'spec_helper'
 describe ApplicationController do
 
   describe "Homepage" do
-    it 'loads the homepage' do
+    it 'loads the homepage if user is not logged in' do
       get '/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("Training on HOT topics")
-    end
-  end
-
-  describe "Signup Page" do
-
-    it 'loads the signup page' do
-      get '/signup'
-      expect(last_response.status).to eq(200)
-    end
-    
-
-    it 'signup directs user to Course index' do
-      params = {
-        :full_name => "Adri Baard",
-        :username => "adri123",
-        :email => "adri@example.com",
-        :password => "stellenbosch"
-      }
-      post '/signup', params
-      expect(last_response.location).to include("/courses")
-    end
-
-    it 'does not let a user sign up without a full_name' do
-      params = {
-        :full_name => "",
-        :username => "adri123",
-        :email => "adri@example.com",
-        :password => "stellenbosch"
-      }
-      post '/signup', params
-      expect(last_response.location).to include('/signup')
-    end
-
-    it 'does not let a user sign up without a username' do
-      params = {
-        :full_name => "Adri Baard",
-        :username => "",
-        :email => "adri@example.com",
-        :password => "stellenbosch"
-      }
-      post '/signup', params
-      expect(last_response.location).to include('/signup')
-    end
-
-    it 'does not let a user sign up without an email' do
-      params = {
-        :full_name => "Adri Baard",
-        :username => "adri123",
-        :email => "",
-        :password => "stellenbosch"
-      }
-      post '/signup', params
-      expect(last_response.location).to include('/signup')
-    end
-
-    it 'does not let a user sign up without a password' do
-      params = {
-        :full_name => "Adri Baard",
-        :username => "adri123",
-        :email => "adri@example.com",
-        :password => ""
-      }
-      post '/signup', params
-      expect(last_response.location).to include('/signup')
-    end
-
-    it 'does not let a logged in user view the signup page' do
-      user = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch")
-      params = {
-        :full_name => "Adri Baard",
-        :username => "adri123",
-        :email => "adri@example.com",
-        :password => "stellenbosch"
-      }
-      post '/signup', params
-      session = {}
-      session[:user_id] = user.id
-      get '/signup'
-      expect(last_response.location).to include('/courses')
     end
   end
 
@@ -93,19 +14,6 @@ describe ApplicationController do
     it 'loads the login page' do
       get '/login'
       expect(last_response.status).to eq(200)
-    end
-
-    it 'loads the Courses index after login' do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
-      params = {
-        :username => "nili678",
-        :password => "iesha"
-      }
-      post '/login', params
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to include("All Courses Available")
     end
 
     it 'does not let a logged in user view the login page' do
@@ -123,7 +31,7 @@ describe ApplicationController do
   end
 
   describe "Logout" do
-    it "lets a user logout if they are already logged in" do
+    it "let a logged in user logout" do
       user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
       params = {
         :username => "nili678",
@@ -140,117 +48,96 @@ describe ApplicationController do
     end
   end
 
-  describe 'Course show page' do
-    it "shows a single course's details" do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
-      course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
-      
-      get "/courses/#{course.id}"
+  describe 'CREATE action' do
+    context 'Create new user' do
 
-      expect(last_response.body).to include("Course information")
-      expect(last_response.body).to include("Description")
-    end
-
-    it "shows course enrollment status if user is a student" do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
-      course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
-      
-      get "/courses/#{course.id}"
-
-      expect(last_response.body).to include("Request to enroll in course")
-    end
-
-    it "shows edit course form if user is an instructor and owns course" do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-      course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
-      
-      get "/courses/#{course.id}"
-
-      expect(last_response.body).to include("Students Enrollment Status")
-    end
-
-    it "does not show edit course form if user is an instructor but does not own course" do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-      course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
-      
-      get "/courses/#{course.id}"
-
-      expect(last_response.body).to include("You are not authorized to edit this course")
-    end
-
-  end
-
-  describe 'User show page' do
-    it "shows a single user's details" do
-      user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
-      
-      get "/users/#{user.id}"
-
-      expect(last_response.body).to include("My account information")
-      expect(page.body).to include("#{user.biography}")
-    end
-  end
-
-  describe 'Index pages' do
-    context 'logged in' do
-      it 'lets a user view the Course index if logged in' do
-        user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-        course1 = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
-      
-        user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => false)
-        course2 = Course.create(name: "Web Animation From the Experts", description: "You’ll learn everything you need to know to design and code expert level web animation through hands-on exercises and curated examples.", icon: "❤️", level: 1, instructor_id: 2)
-
-        visit '/login'
-
-        fill_in(:username, :with => "nili678")
-        fill_in(:password, :with => "iesha")
-        click_button 'Submit'
-
-        visit "/courses"
-        expect(page.body).to include(course1.name)
-        expect(page.body).to include(course2.name)
+      it 'loads the user signup page' do
+        get '/signup'
+        expect(last_response.status).to eq(200)
       end
 
-      it 'lets a user view the User index if logged in' do
-        user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
-        user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => false)
-        visit '/login'
-
-        fill_in(:username, :with => "nili678")
-        fill_in(:password, :with => "iesha")
-        click_button 'Submit'
-
-        visit "/users"
-        expect(page.body).to include(user1.full_name)
-        expect(page.body).to include(user2.full_name)
-      end
-    end
-
-    context 'logged out' do
-      it 'does not let a user view the Course index if not logged in' do
-        get '/courses'
-        expect(last_response.location).to include("/login")
+      it 'does not let a user sign up without a full_name' do
+        params = {
+          :full_name => "",
+          :username => "adri123",
+          :email => "adri@example.com",
+          :password => "stellenbosch"
+        }
+        post '/signup', params
+        expect(last_response.location).to include('/signup')
       end
 
-      it 'does not let a user view the User index if not logged in' do
-        get '/users'
-        expect(last_response.location).to include("/login")
+      it 'does not let a user sign up without a username' do
+        params = {
+          :full_name => "Adri Baard",
+          :username => "",
+          :email => "adri@example.com",
+          :password => "stellenbosch"
+        }
+        post '/signup', params
+        expect(last_response.location).to include('/signup')
       end
-    end
-  end
 
-  describe 'new action' do
-    context 'logged in' do
-      it 'lets user view new Course form if logged in and is an instructor' do
+      it 'does not let a user sign up without an email' do
+        params = {
+          :full_name => "Adri Baard",
+          :username => "adri123",
+          :email => "",
+          :password => "stellenbosch"
+        }
+        post '/signup', params
+        expect(last_response.location).to include('/signup')
+      end
+
+      it 'does not let a user sign up without a password' do
+        params = {
+          :full_name => "Adri Baard",
+          :username => "adri123",
+          :email => "adri@example.com",
+          :password => ""
+        }
+        post '/signup', params
+        expect(last_response.location).to include('/signup')
+      end
+
+      it 'signup directs user to course index page' do
+        params = {
+          :full_name => "Adri Baard",
+          :username => "adri123",
+          :email => "adri@example.com",
+          :password => "stellenbosch"
+        }
+        post '/signup', params
+        expect(last_response.location).to include("/courses")
+      end
+
+      it 'does not let a logged in user view the signup page' do
         user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
+        params = {
+          :username => "nili678",
+          :password => "iesha"
+        }
+        post '/login', params
+        session = {}
+        session[:user_id] = user.id
+        
+        get '/signup'
+        expect(last_response.location).to include("/courses")
+      end
+    end
+
+  context 'Create new course' do
+      it 'let a logged in user view new course form if she is an instructor' do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor =>true)
 
         visit '/login'
 
         fill_in(:username, :with => "nili678")
         fill_in(:password, :with => "iesha")
         click_button 'Submit'
+
         visit '/courses/new'
-        expect(page.status_code).to eq(200)
+        expect(page.current_path).to include('/courses')
       end
 
       it 'let a logged in user create a course if she is an instructor' do
@@ -276,7 +163,7 @@ describe ApplicationController do
         expect(page.status_code).to eq(200)
       end
 
-      it 'does not let a user create a blank course' do
+      it 'does not let an instructor create a blank course' do
         user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
 
         visit '/login'
@@ -293,10 +180,23 @@ describe ApplicationController do
         expect(Course.find_by(:name => "")).to eq(nil)
         expect(page.current_path).to eq("/courses/new")
       end
+
+      it 'does not let a logged in user view new course form if she is a student' do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+
+        visit '/login'
+
+        fill_in(:username, :with => "nili678")
+        fill_in(:password, :with => "iesha")
+        click_button 'Submit'
+
+        visit '/courses/new'
+        expect(page.status_code).to eq(200)
+      end
     end
 
     context 'logged out' do
-      it 'does not let user view new course form if not logged in' do
+      it 'does not let a user view new course form if not logged in' do
         user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
 
         visit '/login'
@@ -309,6 +209,103 @@ describe ApplicationController do
 
         visit '/courses/new'
         expect(page.current_path).to eq("/login")
+      end
+    end
+  end
+
+  describe 'READ action' do
+      context 'Index pages' do
+        it 'let a logged in user view the course index page' do
+          user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          course1 = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+        
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => false)
+          course2 = Course.create(name: "Web Animation From the Experts", description: "You’ll learn everything you need to know to design and code expert level web animation through hands-on exercises and curated examples.", icon: "❤️", level: 1, instructor_id: 2)
+
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/courses"
+          expect(page.body).to include(course1.name)
+          expect(page.body).to include(course2.name)
+        end
+
+        it 'let a logged in user view the user index page' do
+          user1 = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+          user2 = User.create(:full_name => "Adri Baard", :username => "adri123",:email => "adri@example.com", :password => "stellenbosch", :instructor => false)
+          visit '/login'
+
+          fill_in(:username, :with => "nili678")
+          fill_in(:password, :with => "iesha")
+          click_button 'Submit'
+
+          visit "/users"
+          expect(page.body).to include(user1.full_name)
+          expect(page.body).to include(user2.full_name)
+        end
+
+        it 'does not let a user view the course index if not logged in' do
+          get '/courses'
+          expect(last_response.location).to include("/login")
+        end
+
+        it 'does not let a user view the user index if not logged in' do
+          get '/users'
+          expect(last_response.location).to include("/login")
+        end
+      end
+
+    context 'Show pages' do
+
+      it "let a logged in user view the a single course's details" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+        
+        get "/courses/#{course.id}"
+
+        expect(last_response.body).to include("Course information")
+        expect(last_response.body).to include("Description")
+      end
+
+      it "shows course enrollment status if user is a student" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => false)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+        
+        get "/courses/#{course.id}"
+
+        expect(last_response.body).to include("Request to enroll in course")
+      end
+
+      it "shows edit course form if user is an instructor and owns course" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 1)
+        
+        get "/courses/#{course.id}"
+
+        expect(last_response.body).to include("Students Enrollment Status")
+      end
+
+      it "does not show edit course form if user is an instructor but does not own course" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha", :instructor => true)
+        course = Course.create(name: "Phoenix Fundamentals", description: "Phoenix makes building robust, high-performance web applications easier and more fun than you ever thought possible.", icon: "🦅", level: 2, instructor_id: 2)
+        
+        get "/courses/#{course.id}"
+
+        expect(last_response.body).to include("You are not authorized to edit this course")
+      end
+    end
+
+    context 'User show page' do
+      it "shows a single user's details" do
+        user = User.create(:full_name => "Nili Ach", :username => "nili678",:email => "niliach@example.com", :password => "iesha")
+        
+        get "/users/#{user.id}"
+
+        expect(last_response.body).to include("My account information")
+        expect(page.body).to include("#{user.biography}")
       end
     end
   end
