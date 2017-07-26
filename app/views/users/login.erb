@@ -22,6 +22,7 @@
             <h3 class="error"><%= flash[:error] %></h3>
         <% elsif flash.has?(:message) %>
             <h3 class="message"><%= flash[:message] %></h3>
+            <h3><a href="/" style="text-decoration: underline;">Back to homepage</a><h3>
         <% elsif flash.has?(:status) %>
         <h3 class="message"><%= flash[:status] %></h3>
         <% end %>

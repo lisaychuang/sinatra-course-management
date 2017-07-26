@@ -19,28 +19,28 @@ Specs:
 - [X] Ensure that users can't modify content created by other users
     * ➡️ A user who is an ```instructor``` can edit the courses she is teaching and student enrollment status. 
 
-A user who is a ```student``` can edit the courses she is registered for. 
+    A user who is a ```student``` can edit the courses she is registered for. 
 
-All users can edit their personal account information!
+    All users can edit their personal account information!
 
 - [X] Include user input validations
     * ➡️ User input validates are both defined in their model definitions, and validated in forms where certain inputs are required. 
 
-For example, the ```Course``` model validates ```:instructor_id, :name, :description, :level```. These attributes also validated in the ```courses/new``` form, where ```course name, description, level``` are required inputs.
+    For example, the ```Course``` model validates ```:instructor_id, :name, :description, :level```. These attributes also validated in the ```courses/new``` form, where ```course name, description, level``` are required inputs.
 
 
 - [X] Display validation failures to user with error message
     * ➡️ Validation messages are displayed using ```rack-flash3``` Ruby Gem. 
 
-For example, when a new user sign-up for an account, an error message will be displayed if they do not complete all required fields accurately:
-```Please ensure you have filled in all required fields correctly!``` 
+    For example, when a new user sign-up for an account, an error message will be displayed if they do not complete all required fields accurately:
+    ```Please ensure you have filled in all required fields correctly!``` 
 
 - [X] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
     * ➡️ This app's ```README file``` includes all required descriptions.
 
 Confirm
 - [X] You have a large number of small Git commits
-    * ➡️ This repo currently has 72 commits
+    * ➡️ This repo currently has 73 commits
 
 - [X] Your commit messages are meaningful
     * ➡️ All commit messages are descriptive of the changes made, and the corresponding files changes are made in./
