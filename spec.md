@@ -1,6 +1,6 @@
 # Specifications for the Sinatra Assessment
 
-Specs:
+## Specs:
 - [x] Use Sinatra to build the app
     * ➡️ This app is built with Sinatra framework.
 
@@ -38,7 +38,7 @@ Specs:
 - [X] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
     * ➡️ This app's ```README file``` includes all required descriptions.
 
-Confirm
+## Confirm:
 - [X] You have a large number of small Git commits
     * ➡️ This repo currently has 73 commits
 
