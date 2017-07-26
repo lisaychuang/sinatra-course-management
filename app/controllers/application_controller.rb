@@ -27,12 +27,12 @@ class ApplicationController < Sinatra::Base
     
     # Find current user
     def current_user
-      User.find_by_id(session[:user_id])
+      @current_user ||= User.find_by_id(session[:user_id])
     end
 
     # Find a course based on id
     def find_course(id)
-      Course.find_by_id(id)
+      @course ||= Course.find_by_id(id)
     end
 
     # Display course difficulty based on level
@@ -57,5 +57,4 @@ class ApplicationController < Sinatra::Base
         end
     end
   end
-
 end
