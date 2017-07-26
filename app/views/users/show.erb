@@ -11,6 +11,13 @@
 
             <h3><a href="/users/<%=current_user.id%>/edit">Update account information</a></h3>
 
+            <%#Flash message%>
+            <% if flash.has?(:error) %>
+                <h3 class="error"><%= flash[:error] %></h3>
+            <% elsif flash.has?(:message) %>
+                <h3 class="message"><%= flash[:message] %></h3>
+            <% end %>
+
         </div>
     <% else %>
 

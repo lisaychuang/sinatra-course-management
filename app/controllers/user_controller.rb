@@ -169,12 +169,16 @@ class UserController < ApplicationController
         if current_user.id === params[:id].to_i
             if current_user.authenticate(params[:old_password])
                 current_user.update(biography: params[:biography], email: params[:email], password: params[:new_password])
+                flash[:message] = "You profile and password has been updated successfully!"
                 redirect to "/users/#{current_user.id}"
             else
                 current_user.update(biography: params[:biography], email: params[:email])
+
+                flash[:message] = "You profile has been updated successfully!"
                 redirect to "/users/#{current_user.id}"
             end
         else
+            flash[:error] = "You profile was not updated, please try again."
             redirect to "/users/#{params[:id]}"
         end
     end

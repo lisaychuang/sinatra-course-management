@@ -40,7 +40,7 @@
 
 ## Confirm:
 - [X] You have a large number of small Git commits
-    * ➡️ This repo currently has 73 commits
+    * ➡️ This repo currently has 74 commits
 
 - [X] Your commit messages are meaningful
     * ➡️ All commit messages are descriptive of the changes made, and the corresponding files changes are made in./
