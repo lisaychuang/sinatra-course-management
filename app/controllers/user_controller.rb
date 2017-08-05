@@ -10,13 +10,8 @@ class UserController < ApplicationController
 
     # CREATE a new user based on form information
     post '/signup' do
-        @user = User.create(full_name: params[:full_name], username: params[:username], email: params[:email], password: params[:password])
-        if params[:instructor] == "yes"
-            @user.instructor = true
-        else 
-            @user.instructor = false
-        end
-
+        @user = User.new(full_name: params[:full_name], username: params[:username], email: params[:email], password: params[:password])
+        @user.instructor = params[:instructor] == "yes" ? true : false
         if @user.save
             session[:user_id] = @user.id
             redirect to "/courses"
@@ -38,7 +33,6 @@ class UserController < ApplicationController
     # Verify user information to Log In
     post '/login' do
         @user = User.find_by(username: params[:username])
-
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
             redirect to "/courses"
@@ -63,7 +57,6 @@ class UserController < ApplicationController
     get '/users' do
         @instructors = User.where(instructor: true)
         @students = User.where(instructor: false)
-        
         if logged_in?
             erb :"/users/index"
         else

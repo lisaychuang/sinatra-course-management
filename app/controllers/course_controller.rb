@@ -74,9 +74,13 @@ class CourseController < ApplicationController
     get '/courses/:id/edit' do
         @course = find_course(params[:id])
         if logged_in?
-            if current_user.instructor && current_user.id === @course.instructor.id
+            if current_user.instructor && current_user.id === @course.instructor_id
+                binding.pry
                 erb :"/courses/edit_course"
-            else
+            elsif current_user.id != @course.instructor_id
+                flash[:error] = "You are not the instructor for this course!"
+                redirect to "/courses/#{@course.id}"
+            else !current_user.instructor
                 flash[:error] = "You are not an instructor!"
                 redirect to "/courses/#{@course.id}"
             end
@@ -125,8 +129,8 @@ class CourseController < ApplicationController
             redirect to "/courses/#{@course.id}"
         else 
             flash[:error] = "Something went wrong. 
-                Please try to register for this course again, remember to include a Request Note to your instructor!"
-                redirect to "/courses/#{@course.id}"
+            Please try to register for this course again, remember to include a Request Note to your instructor!"
+            redirect to "/courses/#{@course.id}"
         end
     end
 

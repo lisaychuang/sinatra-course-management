@@ -22,7 +22,7 @@ class ApplicationController < Sinatra::Base
 
     # Check if a user is logged into their account
     def logged_in?
-      !!session[:user_id]
+      !!current_user
     end
     
     # Find current user
