@@ -74,8 +74,12 @@ class CourseController < ApplicationController
     get '/courses/:id/edit' do
         @course = find_course(params[:id])
         if logged_in?
-            if current_user.instructor && current_user.id === @course.instructor.id
+            if current_user.instructor && current_user.id === @course.instructor_id
                 erb :"/courses/edit_course"
+
+            elsif current_user.instructor && current_user.id != @course.instructor_id
+                flash[:error] = "You are not the instructor for this course!"
+                redirect to "/courses/#{@course.id}"
             else
                 flash[:error] = "You are not an instructor!"
                 redirect to "/courses/#{@course.id}"
