@@ -50,11 +50,44 @@
 
   <body>
     <div class="mui-appbar">
-      <div class="mui-container">
-        <div class="brand">Course Registration System
-      </div>
+      <div class="mui-container-fluid">
+        <div class="mui-col-md-10">
+          <div class="brand">Course Registration System
+          </div>
+        </div>
+
+         <%# SHOW Dropdown menu only when user is logged in %>
+        <div class="mui-col-md-2">
+         <% if logged_in? %>
+            <div class="mui-dropdown">
+              <button class="mui-btn mui-btn--raised" data-mui-toggle="dropdown">
+                 ☰
+                <span class="mui-caret"></span>
+              </button>
+              <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                <li><a href="/users/<%=current_user.id%>/edit">Update my account</a></li>
+                <li><a href="/users">View users</a></li>
+                <li><a href="/courses">View courses</a></li>
+
+                <%# INSTRUCTOR menu links %>
+                <% if current_user.instructor%>
+                  <li><a href="/courses/new">Create new course</a></li>
+                  <li><a href="/teaching">My courses</a></li>
+
+                <%# STUDENT menu links %>  
+                <%else%>
+                  <li><a href="/enrolled">My enrollment</a></li>
+                <%end%>
+                <li><a href="/logout">Log out</a></li>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+        
       </div>
     </div>
+
+
     <div class="mui-container">
       <%= yield %>
     </div>
