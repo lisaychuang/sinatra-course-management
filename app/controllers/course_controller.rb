@@ -75,7 +75,6 @@ class CourseController < ApplicationController
         @course = find_course(params[:id])
         if logged_in?
             if current_user.instructor && current_user.id === @course.instructor_id
-                binding.pry
                 erb :"/courses/edit_course"
             elsif current_user.id != @course.instructor_id
                 flash[:error] = "You are not the instructor for this course!"
