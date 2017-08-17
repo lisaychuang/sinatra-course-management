@@ -79,12 +79,9 @@ class CourseController < ApplicationController
             elsif current_user.id != @course.instructor_id
                 flash[:error] = "You are not the instructor for this course!"
                 redirect to "/courses/#{@course.id}"
-            else
+            else !current_user.instructor
                 flash[:error] = "You are not an instructor!"
-                redirect to "/courses/#{@course.id}"
-            end
-        else
-            redirect to :"/login"
+                redirect to :"/login"
         end
     end
 
@@ -128,8 +125,8 @@ class CourseController < ApplicationController
             redirect to "/courses/#{@course.id}"
         else 
             flash[:error] = "Something went wrong. 
-                Please try to register for this course again, remember to include a Request Note to your instructor!"
-                redirect to "/courses/#{@course.id}"
+            Please try to register for this course again, remember to include a Request Note to your instructor!"
+            redirect to "/courses/#{@course.id}"
         end
     end
 

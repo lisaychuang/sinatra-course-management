@@ -50,3 +50,12 @@
 
 - [X] You don't include changes in a commit that aren't related to the commit message
     * ➡️ Yes
+
+
+## Stuff To Add:
+- [] Navigation system 
+    * Navbar 
+        -> If ! logged_in show signup and login 
+        -> I logged in show links to /courses and /courses/new and logout
+    * Notifications
+        -> Make sure the notification states the right thing.
