@@ -37,20 +37,22 @@ class ApplicationController < Sinatra::Base
 
     # Display course difficulty based on level
     def course_difficulty(num)
-        if num === 0
+      case num
+        when 0
           "Easy"
-        elsif num === 1
+        when 1
           "Intermediate"
         else
           "Advanced"
-        end
+      end
     end
 
     # Display course registration status based on confirmation
     def registration_status(num)
-        if num === 0
+      case num
+        when 0
           "Pending"
-        elsif num === 1
+        when 1
           "Waitlisted"
         else
           "Enrolled"

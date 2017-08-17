@@ -81,10 +81,7 @@ class CourseController < ApplicationController
                 redirect to "/courses/#{@course.id}"
             else !current_user.instructor
                 flash[:error] = "You are not an instructor!"
-                redirect to "/courses/#{@course.id}"
-            end
-        else
-            redirect to :"/login"
+                redirect to :"/login"
         end
     end
 
