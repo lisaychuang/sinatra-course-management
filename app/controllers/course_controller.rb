@@ -76,12 +76,13 @@ class CourseController < ApplicationController
         if logged_in?
             if current_user.instructor && current_user.id === @course.instructor_id
                 erb :"/courses/edit_course"
-            elsif current_user.id != @course.instructor_id
+            elsif current_user.instructor && current_user.id != @course.instructor_id
                 flash[:error] = "You are not the instructor for this course!"
                 redirect to "/courses/#{@course.id}"
             else !current_user.instructor
                 flash[:error] = "You are not an instructor!"
                 redirect to :"/login"
+            end
         end
     end
 
